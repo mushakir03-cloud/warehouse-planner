@@ -102,16 +102,8 @@ export function LpoForm({
               onChange={handleDateChange}
               onFocus={openPicker}
               onClick={openPicker}
-              className={`${input} pr-9`}
+              className={input}
             />
-            <button
-              type="button"
-              onClick={openPicker}
-              aria-label="Pick a date"
-              className="absolute inset-y-0 right-0 flex w-9 items-center justify-center text-gray-400 hover:text-gray-600"
-            >
-              📅
-            </button>
             <input
               ref={pickerRef}
               type="date"
