@@ -1,6 +1,6 @@
 "use client";
 
-import { useActionState } from "react";
+import { useActionState, useState } from "react";
 import { todayStr } from "@/lib/constants";
 import type { FormState } from "@/app/actions";
 
@@ -12,6 +12,30 @@ type LpoValues = {
   totalQuantity?: number;
   notes?: string;
 };
+
+// "YYYY-MM-DD" -> "DD/MM/YYYY"
+function isoToDisplay(iso: string) {
+  if (!iso) return "";
+  const [y, m, d] = iso.split("-");
+  if (!y || !m || !d) return "";
+  return `${d}/${m}/${y}`;
+}
+
+// "DD/MM/YYYY" -> "YYYY-MM-DD" (empty string if incomplete/invalid)
+function displayToIso(display: string) {
+  const match = display.match(/^(\d{2})\/(\d{2})\/(\d{4})$/);
+  if (!match) return "";
+  const [, d, m, y] = match;
+  return `${y}-${m}-${d}`;
+}
+
+// Auto-inserts slashes as the user types digits: "07072026" -> "07/07/2026"
+function formatDateTyping(raw: string) {
+  const digits = raw.replace(/\D/g, "").slice(0, 8);
+  if (digits.length > 4) return `${digits.slice(0, 2)}/${digits.slice(2, 4)}/${digits.slice(4)}`;
+  if (digits.length > 2) return `${digits.slice(0, 2)}/${digits.slice(2)}`;
+  return digits;
+}
 
 export function LpoForm({
   action,
@@ -27,6 +51,15 @@ export function LpoForm({
     "rounded border border-gray-300 bg-white px-3 py-2 text-sm focus:border-blue-500 focus:outline-none";
   const input = `w-full ${base}`;
   const label = "mb-1 block text-sm font-medium";
+
+  const [dateDisplay, setDateDisplay] = useState(
+    isoToDisplay(values.deliveryDate ?? todayStr(1))
+  );
+  const isoDate = displayToIso(dateDisplay);
+
+  function handleDateChange(e: React.ChangeEvent<HTMLInputElement>) {
+    setDateDisplay(formatDateTyping(e.target.value));
+  }
 
   return (
     <form action={formAction} className="space-y-4 rounded-lg border border-gray-200 bg-white p-5 shadow-sm">
@@ -45,7 +78,18 @@ export function LpoForm({
         </div>
         <div>
           <label className={label}>Delivery Date * (dd/mm/yyyy)</label>
-          <input type="date" name="deliveryDate" lang="en-GB" required defaultValue={values.deliveryDate ?? todayStr(1)} className={input} />
+          <input
+            type="text"
+            inputMode="numeric"
+            required
+            pattern="\d{2}/\d{2}/\d{4}"
+            placeholder="dd/mm/yyyy"
+            maxLength={10}
+            value={dateDisplay}
+            onChange={handleDateChange}
+            className={input}
+          />
+          <input type="hidden" name="deliveryDate" value={isoDate} readOnly />
         </div>
         <div>
           <label className={label}>Total Quantity *</label>
