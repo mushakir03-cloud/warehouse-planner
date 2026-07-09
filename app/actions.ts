@@ -8,9 +8,10 @@ import { createSession, destroySession, requireUser } from "@/lib/auth";
 import { ROLES, STATUSES } from "@/lib/constants";
 
 export async function login(formData: FormData) {
-  const email = String(formData.get("email") || "").trim().toLowerCase();
+  // "email" is the underlying db column, but staff log in with a short username now.
+  const username = String(formData.get("username") || "").trim().toLowerCase();
   const password = String(formData.get("password") || "");
-  const user = await prisma.user.findUnique({ where: { email } });
+  const user = await prisma.user.findUnique({ where: { email: username } });
   if (!user || !(await bcrypt.compare(password, user.passwordHash))) {
     redirect("/login?error=1");
   }

@@ -5,14 +5,17 @@ const prisma = new PrismaClient();
 
 /**
  * Production seed: creates ONLY the real staff, no sample invoices.
- * Safe to run more than once — it upserts by email and never deletes invoices.
+ * Safe to run more than once — it upserts by username (stored in the `email`
+ * column) and never deletes invoices. Staff log in with the plain username
+ * below (not an email address).
  */
 const users = [
-  { name: "Mustafa (Admin)", email: "admin@bagshop.com", role: "ADMIN", password: "admin123" },
-  { name: "Pawan", email: "pawan@bagshop.com", role: "SALESMAN", password: "pawan123" },
-  { name: "Mohsin", email: "mohsin@bagshop.com", role: "SALESMAN", password: "mohsin123" },
-  { name: "Idris", email: "idris@bagshop.com", role: "SALESMAN", password: "idris123" },
-  { name: "Swami", email: "swami@bagshop.com", role: "WAREHOUSE_KEEPER", password: "swami123" },
+  { name: "Admin", email: "admin", role: "ADMIN", password: "Zephyr9214" },
+  { name: "Pawan", email: "pawan", role: "SALESMAN", password: "Orbit6357" },
+  { name: "Mohsin", email: "mohsin", role: "SALESMAN", password: "Cedar4891" },
+  { name: "Idris", email: "idris", role: "SALESMAN", password: "Willow7523" },
+  { name: "Huzaifa", email: "huzaifa", role: "SALESMAN", password: "Falconry8842" },
+  { name: "Swami", email: "swami", role: "WAREHOUSE_KEEPER", password: "Granite3169" },
 ];
 
 async function main() {

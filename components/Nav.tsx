@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 import { logout } from "@/app/actions";
 import { ROLES, ROLE_LABELS } from "@/lib/constants";
@@ -35,8 +36,11 @@ export function Nav({ user }: { user: NavUser }) {
   return (
     <header className="bg-slate-800 text-white">
       <div className="mx-auto flex max-w-6xl flex-wrap items-center gap-x-4 gap-y-2 px-4 py-3">
-        <Link href="/" className="text-lg font-bold">
-          👜 BagShop Invoice Tracker
+        <Link href="/" className="flex items-center gap-2 text-lg font-bold">
+          <span className="rounded bg-white p-1">
+            <Image src="/logo.svg" alt="Bag Shop" width={28} height={20} />
+          </span>
+          BagShop Invoice Tracker
         </Link>
         <nav className="flex flex-wrap items-center gap-x-4 gap-y-1 text-sm">
           {links.map((l) => (
