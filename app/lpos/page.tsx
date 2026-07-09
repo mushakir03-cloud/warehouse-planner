@@ -86,7 +86,7 @@ export default async function LposPage({
           </div>
           <div>
             <label className={label}>Delivery Date</label>
-            <input type="date" name="deliveryDate" defaultValue={sp.deliveryDate || ""} className={`${input} w-full`} />
+            <input type="date" name="deliveryDate" lang="en-GB" defaultValue={sp.deliveryDate || ""} className={`${input} w-full`} />
           </div>
           <div>
             <label className={label}>Customer Name</label>

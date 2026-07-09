@@ -45,7 +45,7 @@ export function LpoForm({
         </div>
         <div>
           <label className={label}>Delivery Date * (dd/mm/yyyy)</label>
-          <input type="date" name="deliveryDate" required defaultValue={values.deliveryDate ?? todayStr(1)} className={input} />
+          <input type="date" name="deliveryDate" lang="en-GB" required defaultValue={values.deliveryDate ?? todayStr(1)} className={input} />
         </div>
         <div>
           <label className={label}>Total Quantity *</label>
