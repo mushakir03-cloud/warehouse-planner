@@ -100,6 +100,8 @@ export function LpoForm({
               maxLength={10}
               value={dateDisplay}
               onChange={handleDateChange}
+              onFocus={openPicker}
+              onClick={openPicker}
               className={`${input} pr-9`}
             />
             <button
