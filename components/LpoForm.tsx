@@ -1,6 +1,6 @@
 "use client";
 
-import { useActionState, useRef, useState } from "react";
+import { useActionState, useEffect, useRef, useState } from "react";
 import { todayStr } from "@/lib/constants";
 import type { FormState } from "@/app/actions";
 
@@ -37,6 +37,103 @@ function formatDateTyping(raw: string) {
   return digits;
 }
 
+const MONTH_NAMES = [
+  "January", "February", "March", "April", "May", "June",
+  "July", "August", "September", "October", "November", "December",
+];
+const WEEKDAY_LABELS = ["Mo", "Tu", "We", "Th", "Fr", "Sa", "Su"];
+
+function pad2(n: number) {
+  return String(n).padStart(2, "0");
+}
+
+// Small self-contained month calendar. Weeks start Monday to match dd/mm/yyyy locales.
+function DateCalendar({
+  iso,
+  onSelect,
+}: {
+  iso: string;
+  onSelect: (iso: string) => void;
+}) {
+  const initial = iso ? new Date(iso + "T00:00:00") : new Date();
+  const [viewYear, setViewYear] = useState(initial.getFullYear());
+  const [viewMonth, setViewMonth] = useState(initial.getMonth());
+
+  const firstOfMonth = new Date(viewYear, viewMonth, 1);
+  const startWeekday = (firstOfMonth.getDay() + 6) % 7; // 0 = Monday
+  const daysInMonth = new Date(viewYear, viewMonth + 1, 0).getDate();
+
+  const cells: (number | null)[] = [
+    ...Array(startWeekday).fill(null),
+    ...Array.from({ length: daysInMonth }, (_, i) => i + 1),
+  ];
+
+  const gridStyle: React.CSSProperties = {
+    display: "grid",
+    gridTemplateColumns: "repeat(7, 1fr)",
+    gap: "2px",
+  };
+
+  function goPrevMonth() {
+    if (viewMonth === 0) {
+      setViewMonth(11);
+      setViewYear((y) => y - 1);
+    } else {
+      setViewMonth((m) => m - 1);
+    }
+  }
+
+  function goNextMonth() {
+    if (viewMonth === 11) {
+      setViewMonth(0);
+      setViewYear((y) => y + 1);
+    } else {
+      setViewMonth((m) => m + 1);
+    }
+  }
+
+  return (
+    <div
+      className="absolute left-0 top-full z-20 mt-1 w-64 rounded-lg border border-gray-200 bg-white p-3 shadow-lg"
+      onMouseDown={(e) => e.preventDefault()}
+    >
+      <div className="mb-2 flex items-center justify-between">
+        <button type="button" onClick={goPrevMonth} className="rounded px-2 py-1 text-sm hover:bg-gray-100">
+          ‹
+        </button>
+        <span className="text-sm font-semibold">
+          {MONTH_NAMES[viewMonth]} {viewYear}
+        </span>
+        <button type="button" onClick={goNextMonth} className="rounded px-2 py-1 text-sm hover:bg-gray-100">
+          ›
+        </button>
+      </div>
+      <div style={gridStyle} className="text-center text-xs text-gray-400">
+        {WEEKDAY_LABELS.map((d) => (
+          <div key={d} className="py-1">{d}</div>
+        ))}
+      </div>
+      <div style={gridStyle} className="text-center text-sm">
+        {cells.map((day, i) => {
+          if (day === null) return <div key={i} />;
+          const cellIso = `${viewYear}-${pad2(viewMonth + 1)}-${pad2(day)}`;
+          const isSelected = cellIso === iso;
+          return (
+            <button
+              key={i}
+              type="button"
+              onClick={() => onSelect(cellIso)}
+              className={`rounded py-1 hover:bg-blue-100 ${isSelected ? "bg-slate-800 text-white hover:bg-slate-700" : ""}`}
+            >
+              {day}
+            </button>
+          );
+        })}
+      </div>
+    </div>
+  );
+}
+
 export function LpoForm({
   action,
   values = {},
@@ -56,22 +153,28 @@ export function LpoForm({
     isoToDisplay(values.deliveryDate ?? todayStr(1))
   );
   const isoDate = displayToIso(dateDisplay);
-  const pickerRef = useRef<HTMLInputElement>(null);
+  const [calendarOpen, setCalendarOpen] = useState(false);
+  const dateFieldRef = useRef<HTMLDivElement>(null);
 
   function handleDateChange(e: React.ChangeEvent<HTMLInputElement>) {
     setDateDisplay(formatDateTyping(e.target.value));
   }
 
-  function handlePickerChange(e: React.ChangeEvent<HTMLInputElement>) {
-    if (e.target.value) setDateDisplay(isoToDisplay(e.target.value));
+  function handleCalendarSelect(iso: string) {
+    setDateDisplay(isoToDisplay(iso));
+    setCalendarOpen(false);
   }
 
-  function openPicker() {
-    const el = pickerRef.current;
-    if (!el) return;
-    if (typeof el.showPicker === "function") el.showPicker();
-    else el.focus();
-  }
+  useEffect(() => {
+    if (!calendarOpen) return;
+    function handleOutsideClick(e: MouseEvent) {
+      if (dateFieldRef.current && !dateFieldRef.current.contains(e.target as Node)) {
+        setCalendarOpen(false);
+      }
+    }
+    document.addEventListener("mousedown", handleOutsideClick);
+    return () => document.removeEventListener("mousedown", handleOutsideClick);
+  }, [calendarOpen]);
 
   return (
     <form action={formAction} className="space-y-4 rounded-lg border border-gray-200 bg-white p-5 shadow-sm">
@@ -88,7 +191,7 @@ export function LpoForm({
           <label className={label}>Delivery Location (address) *</label>
           <input name="deliveryLocation" required defaultValue={values.deliveryLocation ?? ""} placeholder="e.g. Shop 12, Gold Souk, Deira, Dubai" className={input} />
         </div>
-        <div>
+        <div ref={dateFieldRef}>
           <label className={label}>Delivery Date * (dd/mm/yyyy)</label>
           <div className="relative">
             <input
@@ -100,26 +203,11 @@ export function LpoForm({
               maxLength={10}
               value={dateDisplay}
               onChange={handleDateChange}
-              onFocus={openPicker}
-              onClick={openPicker}
+              onFocus={() => setCalendarOpen(true)}
+              onClick={() => setCalendarOpen(true)}
               className={input}
             />
-            <input
-              ref={pickerRef}
-              type="date"
-              value={isoDate}
-              onChange={handlePickerChange}
-              style={{
-                position: "absolute",
-                inset: 0,
-                width: "100%",
-                height: "100%",
-                opacity: 0,
-                pointerEvents: "none",
-              }}
-              tabIndex={-1}
-              aria-hidden="true"
-            />
+            {calendarOpen && <DateCalendar iso={isoDate} onSelect={handleCalendarSelect} />}
           </div>
           <input type="hidden" name="deliveryDate" value={isoDate} readOnly />
         </div>
