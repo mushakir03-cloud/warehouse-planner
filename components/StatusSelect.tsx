@@ -75,11 +75,11 @@ export function StatusSelect({
             <div className="grid grid-cols-2 gap-3">
               <div>
                 <label className={label}>🛍️ Plastic bags</label>
-                <input name="deliveredBags" type="number" min={0} defaultValue={0} className={input} />
+                <input name="deliveredBags" type="number" min={0} placeholder="0" className={input} />
               </div>
               <div>
                 <label className={label}>📦 Cartons</label>
-                <input name="deliveredCartons" type="number" min={0} defaultValue={0} className={input} />
+                <input name="deliveredCartons" type="number" min={0} placeholder="0" className={input} />
               </div>
             </div>
             <p className="text-xs text-gray-500">
