@@ -1,6 +1,6 @@
 "use client";
 
-import { useActionState, useState } from "react";
+import { useActionState, useRef, useState } from "react";
 import { todayStr } from "@/lib/constants";
 import type { FormState } from "@/app/actions";
 
@@ -56,9 +56,21 @@ export function LpoForm({
     isoToDisplay(values.deliveryDate ?? todayStr(1))
   );
   const isoDate = displayToIso(dateDisplay);
+  const pickerRef = useRef<HTMLInputElement>(null);
 
   function handleDateChange(e: React.ChangeEvent<HTMLInputElement>) {
     setDateDisplay(formatDateTyping(e.target.value));
+  }
+
+  function handlePickerChange(e: React.ChangeEvent<HTMLInputElement>) {
+    if (e.target.value) setDateDisplay(isoToDisplay(e.target.value));
+  }
+
+  function openPicker() {
+    const el = pickerRef.current;
+    if (!el) return;
+    if (typeof el.showPicker === "function") el.showPicker();
+    else el.focus();
   }
 
   return (
@@ -78,17 +90,43 @@ export function LpoForm({
         </div>
         <div>
           <label className={label}>Delivery Date * (dd/mm/yyyy)</label>
-          <input
-            type="text"
-            inputMode="numeric"
-            required
-            pattern="\d{2}/\d{2}/\d{4}"
-            placeholder="dd/mm/yyyy"
-            maxLength={10}
-            value={dateDisplay}
-            onChange={handleDateChange}
-            className={input}
-          />
+          <div className="relative">
+            <input
+              type="text"
+              inputMode="numeric"
+              required
+              pattern="\d{2}/\d{2}/\d{4}"
+              placeholder="dd/mm/yyyy"
+              maxLength={10}
+              value={dateDisplay}
+              onChange={handleDateChange}
+              className={`${input} pr-9`}
+            />
+            <button
+              type="button"
+              onClick={openPicker}
+              aria-label="Pick a date"
+              className="absolute inset-y-0 right-0 flex w-9 items-center justify-center text-gray-400 hover:text-gray-600"
+            >
+              📅
+            </button>
+            <input
+              ref={pickerRef}
+              type="date"
+              value={isoDate}
+              onChange={handlePickerChange}
+              style={{
+                position: "absolute",
+                inset: 0,
+                width: "100%",
+                height: "100%",
+                opacity: 0,
+                pointerEvents: "none",
+              }}
+              tabIndex={-1}
+              aria-hidden="true"
+            />
+          </div>
           <input type="hidden" name="deliveryDate" value={isoDate} readOnly />
         </div>
         <div>
