@@ -1,0 +1,12 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "warehouse-planner",
+      "runtimeExecutable": "/Users/mustafamurtaza/.local/node/bin/node",
+      "runtimeArgs": ["/Users/mustafamurtaza/Downloads/warehouse-planner/node_modules/next/dist/bin/next", "dev", "/Users/mustafamurtaza/Downloads/warehouse-planner"],
+      "autoPort": true,
+      "port": 3000
+    }
+  ]
+}

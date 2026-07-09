@@ -1,0 +1,8 @@
+node_modules
+.next
+android-app
+prisma/dev.db
+prisma/dev.db-journal
+prisma/migrations_sqlite_old
+.claude
+dev.sh

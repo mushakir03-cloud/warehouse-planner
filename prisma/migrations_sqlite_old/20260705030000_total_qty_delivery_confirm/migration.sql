@@ -1,0 +1,5 @@
+ALTER TABLE "lpos" ADD COLUMN "totalQuantity" INTEGER NOT NULL DEFAULT 0;
+ALTER TABLE "lpos" ADD COLUMN "doNumber" TEXT NOT NULL DEFAULT '';
+ALTER TABLE "lpos" ADD COLUMN "deliveredQuantity" INTEGER;
+ALTER TABLE "lpos" ADD COLUMN "deliveredBags" INTEGER;
+ALTER TABLE "lpos" ADD COLUMN "deliveredCartons" INTEGER;
