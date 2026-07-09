@@ -15,6 +15,7 @@ const users = [
   { name: "Mohsin", email: "mohsin", role: "SALESMAN", password: "Cedar4891" },
   { name: "Idris", email: "idris", role: "SALESMAN", password: "Willow7523" },
   { name: "Huzaifa", email: "huzaifa", role: "SALESMAN", password: "Falconry8842" },
+  { name: "Shabbir", email: "shabbir", role: "SALESMAN", password: "Compass5417" },
   { name: "Swami", email: "swami", role: "WAREHOUSE_KEEPER", password: "Granite3169" },
 ];
 
