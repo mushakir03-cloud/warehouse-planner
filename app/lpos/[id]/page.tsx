@@ -8,6 +8,7 @@ import { LpoForm } from "@/components/LpoForm";
 import { StatusForm } from "@/components/StatusForm";
 import { DeleteLpoButton } from "@/components/DeleteLpoButton";
 import { StatusBadge } from "@/components/Badges";
+import { InvoiceActivityTimeline } from "@/components/InvoiceActivityTimeline";
 
 export const dynamic = "force-dynamic";
 
@@ -137,26 +138,8 @@ export default async function LpoDetailPage({
 
       {user.role === ROLES.ADMIN && (
         <section>
-          <h2 className="mb-3 text-lg font-semibold">Status History</h2>
-          {lpo.activityLogs.length === 0 ? (
-            <p className="text-sm text-gray-500">No status changes yet.</p>
-          ) : (
-            <ul className="space-y-2">
-              {lpo.activityLogs.map((log) => (
-                <li key={log.id} className="rounded-lg border border-gray-200 bg-white p-3 text-sm shadow-sm">
-                  <div className="flex flex-wrap items-center gap-2">
-                    <StatusBadge status={log.oldStatus} />
-                    <span className="text-gray-400">→</span>
-                    <StatusBadge status={log.newStatus} />
-                  </div>
-                  <p className="mt-1 text-xs text-gray-500">
-                    {log.changedBy.name} · {formatDateTime(log.createdAt)}
-                    {log.notes && <> · &ldquo;{log.notes}&rdquo;</>}
-                  </p>
-                </li>
-              ))}
-            </ul>
-          )}
+          <h2 className="mb-3 text-lg font-semibold">Activity Timeline</h2>
+          <InvoiceActivityTimeline lpo={lpo} />
         </section>
       )}
     </div>
