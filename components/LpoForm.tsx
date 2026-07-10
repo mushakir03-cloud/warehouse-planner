@@ -2,6 +2,7 @@
 
 import { useActionState, useEffect, useRef, useState } from "react";
 import { todayStr } from "@/lib/constants";
+import { checkInvoiceNumber } from "@/app/actions";
 import type { FormState } from "@/app/actions";
 
 type LpoValues = {
@@ -138,10 +139,12 @@ export function LpoForm({
   action,
   values = {},
   submitLabel,
+  lpoId,
 }: {
   action: (prev: FormState, formData: FormData) => Promise<FormState>;
   values?: LpoValues;
   submitLabel: string;
+  lpoId?: number;
 }) {
   const [state, formAction, pending] = useActionState(action, null);
   const base =
@@ -156,6 +159,10 @@ export function LpoForm({
   const [calendarOpen, setCalendarOpen] = useState(false);
   const dateFieldRef = useRef<HTMLDivElement>(null);
 
+  const [billNumber, setBillNumber] = useState(values.billNumber ?? "");
+  const [billNumberError, setBillNumberError] = useState<string | null>(null);
+  const [checkingBillNumber, setCheckingBillNumber] = useState(false);
+
   function handleDateChange(e: React.ChangeEvent<HTMLInputElement>) {
     setDateDisplay(formatDateTyping(e.target.value));
   }
@@ -163,6 +170,22 @@ export function LpoForm({
   function handleCalendarSelect(iso: string) {
     setDateDisplay(isoToDisplay(iso));
     setCalendarOpen(false);
+  }
+
+  async function handleBillNumberBlur(e: React.FocusEvent<HTMLInputElement>) {
+    const value = e.target.value.trim();
+    if (!value) {
+      setBillNumberError(null);
+      return;
+    }
+    setCheckingBillNumber(true);
+    const result = await checkInvoiceNumber(value, lpoId);
+    setCheckingBillNumber(false);
+    if (result.taken) {
+      setBillNumberError(`Invoice number "${value}" is already in use. Please use a different number.`);
+    } else {
+      setBillNumberError(null);
+    }
   }
 
   useEffect(() => {
@@ -185,7 +208,21 @@ export function LpoForm({
         </div>
         <div>
           <label className={label}>Invoice Number *</label>
-          <input name="billNumber" required defaultValue={values.billNumber ?? ""} placeholder="e.g. 1045" className={input} />
+          <input
+            name="billNumber"
+            required
+            value={billNumber}
+            onChange={(e) => setBillNumber(e.target.value)}
+            onBlur={handleBillNumberBlur}
+            placeholder="e.g. 1045"
+            className={`${input} ${billNumberError ? "border-red-500" : ""}`}
+          />
+          {billNumberError && (
+            <p className="mt-1 text-sm text-red-600">{billNumberError}</p>
+          )}
+          {checkingBillNumber && (
+            <p className="mt-1 text-sm text-gray-500">Checking...</p>
+          )}
         </div>
         <div className="sm:col-span-2">
           <label className={label}>Delivery Location (address) *</label>

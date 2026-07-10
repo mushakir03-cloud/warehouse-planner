@@ -130,6 +130,7 @@ export default async function LpoDetailPage({
               notes: lpo.notes,
             }}
             submitLabel="Save Changes"
+            lpoId={lpo.id}
           />
         </section>
       )}

@@ -60,6 +60,12 @@ async function invoiceNumberTaken(billNumber: string, exceptId?: number) {
   return Boolean(dup);
 }
 
+// Exported for real-time validation in the form
+export async function checkInvoiceNumber(billNumber: string, exceptId?: number): Promise<{ taken: boolean }> {
+  const taken = await invoiceNumberTaken(billNumber, exceptId);
+  return { taken };
+}
+
 export async function createLpo(_prev: FormState, formData: FormData): Promise<FormState> {
   const user = await requireUser();
   if (user.role !== ROLES.ADMIN && user.role !== ROLES.SALESMAN) {
