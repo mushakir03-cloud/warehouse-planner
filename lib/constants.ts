@@ -22,8 +22,8 @@ export const ROLES = {
 
 export const ROLE_LABELS: Record<string, string> = {
   ADMIN: "Admin",
-  SALESMAN: "Salesman",
-  WAREHOUSE_KEEPER: "Warehouse",
+  SALESMAN: "Shop Manager",
+  WAREHOUSE_KEEPER: "Warehouse Manager",
 };
 
 export function lpoCode(id: number) {
