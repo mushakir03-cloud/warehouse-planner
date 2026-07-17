@@ -18,9 +18,9 @@ export default async function LoginPage({
     <div className="mx-auto mt-16 max-w-sm">
       <div className="rounded-lg border border-gray-200 bg-white p-6 shadow-sm">
         <div className="mb-3 flex justify-center">
-          <Image src="/logo.svg" alt="Bag Shop" width={90} height={63} />
+          <Image src="/logo.svg" alt="Delivery Order Tracker" width={90} height={63} />
         </div>
-        <h1 className="mb-1 text-center text-2xl font-bold">BagShop Invoice Tracker</h1>
+        <h1 className="mb-1 text-center text-2xl font-bold">Delivery Order Tracker</h1>
         <p className="mb-6 text-center text-sm text-gray-500">
           Staff login
         </p>

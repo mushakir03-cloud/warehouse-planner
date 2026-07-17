@@ -1,7 +1,7 @@
 {
-  "name": "BagShop Invoice Tracker",
-  "short_name": "Invoice Tracker",
-  "description": "Invoice and delivery tracking for The Bag Shop",
+  "name": "Delivery Order Tracker",
+  "short_name": "Order Tracker",
+  "description": "Track and manage delivery orders efficiently",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#f3f4f6",

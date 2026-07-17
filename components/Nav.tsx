@@ -38,9 +38,9 @@ export function Nav({ user }: { user: NavUser }) {
       <div className="mx-auto flex max-w-6xl flex-wrap items-center gap-x-4 gap-y-2 px-4 py-3">
         <Link href="/" className="flex items-center gap-2 text-lg font-bold">
           <span className="rounded bg-white p-1">
-            <Image src="/logo.svg" alt="Bag Shop" width={28} height={20} />
+            <Image src="/logo.svg" alt="Delivery Order Tracker" width={28} height={20} />
           </span>
-          BagShop Invoice Tracker
+          Delivery Order Tracker
         </Link>
         <nav className="flex flex-wrap items-center gap-x-4 gap-y-1 text-sm">
           {links.map((l) => (

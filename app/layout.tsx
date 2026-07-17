@@ -8,8 +8,8 @@ import { NewLpoWatcher } from "@/components/NewLpoWatcher";
 import { SavedToast } from "@/components/SavedToast";
 
 export const metadata: Metadata = {
-  title: "BagShop Invoice Tracker",
-  description: "Invoice and delivery tracking for The Bag Shop",
+  title: "Delivery Order Tracker",
+  description: "Track and manage delivery orders efficiently",
   manifest: "/manifest.json",
   icons: { icon: "/icon-192.png", apple: "/icon-192.png" },
 };
