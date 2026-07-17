@@ -1,6 +1,7 @@
 import Link from "next/link";
+import { redirect } from "next/navigation";
 import { prisma } from "@/lib/db";
-import { requireUser } from "@/lib/auth";
+import { getCurrentUser } from "@/lib/auth";
 import {
   ROLES,
   STATUS_COLORS,
@@ -14,7 +15,9 @@ import { LpoTable, LpoRow } from "@/components/LpoTable";
 export const dynamic = "force-dynamic";
 
 export default async function DashboardPage() {
-  const user = await requireUser();
+  const user = await getCurrentUser();
+  if (!user) redirect("/login");
+
   const today = todayStr();
   const tomorrow = todayStr(1);
   const weekEnd = todayStr(6); // next 6 days = the rest of the week

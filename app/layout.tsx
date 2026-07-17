@@ -26,7 +26,9 @@ export default async function RootLayout({
     <html lang="en">
       <body className="min-h-screen bg-gray-100 text-gray-900 antialiased">
         {user && <Nav user={{ name: user.name, role: user.role }} />}
-        <main className="mx-auto max-w-6xl px-4 py-6 pb-24">{children}</main>
+        <main className={user ? "mx-auto max-w-6xl px-4 py-6 pb-24" : ""}>
+          {children}
+        </main>
         {user && <BackButton />}
         {user?.role === "WAREHOUSE_KEEPER" && <NewLpoWatcher />}
         {user && (
