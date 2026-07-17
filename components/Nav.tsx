@@ -51,7 +51,7 @@ export function Nav({ user }: { user: NavUser }) {
         </nav>
         <div className="ml-auto flex items-center gap-3 text-sm">
           <span className="text-slate-300">
-            {user.name}.{ROLE_LABELS[user.role] || user.role}
+            {user.name} · {ROLE_LABELS[user.role] || user.role}
           </span>
           <form action={logout}>
             <button className="rounded bg-slate-600 px-2 py-1 text-xs hover:bg-slate-500">
