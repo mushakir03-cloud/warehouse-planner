@@ -22,9 +22,22 @@ export const ROLES = {
 
 export const ROLE_LABELS: Record<string, string> = {
   ADMIN: "Admin",
-  SALESMAN: "Shop Manager",
-  WAREHOUSE_KEEPER: "Warehouse Manager",
+  SALESMAN: "Salesman",
+  WAREHOUSE_KEEPER: "Warehouse",
 };
+
+// Custom titles for specific users
+export const CUSTOM_ROLE_LABELS: Record<string, string> = {
+  pawan: "Shop Manager",
+  idris: "Shop Manager",
+  swami: "Warehouse Manager",
+};
+
+export function getUserRoleLabel(userName: string, role: string): string {
+  const customLabel = CUSTOM_ROLE_LABELS[userName.toLowerCase()];
+  if (customLabel) return customLabel;
+  return ROLE_LABELS[role] || role;
+}
 
 export function lpoCode(id: number) {
   return `INV-${String(id).padStart(4, "0")}`;
