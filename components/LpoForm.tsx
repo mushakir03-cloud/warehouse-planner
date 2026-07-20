@@ -249,11 +249,10 @@ export function LpoForm({
           <input type="hidden" name="deliveryDate" value={isoDate} readOnly />
         </div>
         <div>
-          <label className={label}>Total Quantity *</label>
+          <label className={label}>Total Quantity (optional)</label>
           <input
             type="number"
             name="totalQuantity"
-            required
             min={1}
             defaultValue={values.totalQuantity || ""}
             placeholder="e.g. 48"

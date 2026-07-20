@@ -42,9 +42,6 @@ function validateLpo(fields: ReturnType<typeof readLpoFields>): string | null {
   if (!fields.billNumber || !fields.customerName || !fields.deliveryLocation || !fields.deliveryDate) {
     return "Invoice Number, Customer Name, Delivery Location and Delivery Date are required";
   }
-  if (fields.totalQuantity <= 0) {
-    return "Total Quantity is required";
-  }
   return null;
 }
 

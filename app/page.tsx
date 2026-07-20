@@ -11,6 +11,8 @@ import {
   formatDate,
 } from "@/lib/constants";
 import { LpoTable, LpoRow } from "@/components/LpoTable";
+import { CollapsibleSection } from "@/components/CollapsibleSection";
+import { NewInvoiceButton } from "@/components/NewInvoiceButton";
 
 export const dynamic = "force-dynamic";
 
@@ -67,7 +69,7 @@ export default async function DashboardPage() {
     upcomingGroups.set(l.deliveryDate, arr);
   }
 
-  const counters = [
+  const allCounters = [
     { label: "Deliveries Today", count: deliveriesToday.length, color: "bg-slate-700 text-white" },
     { label: "New Invoices Today", count: newToday, color: "bg-slate-500 text-white" },
     { label: "Pending", count: byStatus("Pending"), color: STATUS_COLORS["Pending"] },
@@ -76,13 +78,20 @@ export default async function DashboardPage() {
     { label: "Delivered Today", count: completedTodayRows.length, color: STATUS_COLORS["Delivered"] },
   ];
 
+  // For salesmen, remove the first 3 counters
+  const isSalesman = user.role === ROLES.SALESMAN;
+  const counters = isSalesman ? allCounters.slice(3) : allCounters;
+
   return (
     <div className="space-y-8">
       <div className="flex flex-wrap items-center justify-between gap-2">
         <h1 className="text-2xl font-bold">Dashboard</h1>
-        <p className="text-sm text-gray-500">
-          Today: {formatDate(today)} · Hello, {user.name}
-        </p>
+        <div className="flex items-center gap-4">
+          <p className="text-sm text-gray-500">
+            Today: {formatDate(today)} · Hello, {user.name}
+          </p>
+          {isSalesman && <NewInvoiceButton />}
+        </div>
       </div>
 
       <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-6">
@@ -106,30 +115,57 @@ export default async function DashboardPage() {
         <LpoTable lpos={deliveriesToday} limited={limited} canDelete={isAdmin} showCreated={isAdmin} today={today} emptyText="No deliveries planned for today." />
       </section>
 
-      <section>
-        <h2 className="mb-2 text-lg font-semibold">Tomorrow ({formatDate(tomorrow)})</h2>
-        <LpoTable lpos={deliveriesTomorrow} limited={limited} canDelete={isAdmin} showCreated={isAdmin} emptyText="Nothing planned for tomorrow yet." />
-      </section>
+      {isSalesman ? (
+        <CollapsibleSection title={`Tomorrow (${formatDate(tomorrow)})`}>
+          <LpoTable lpos={deliveriesTomorrow} limited={limited} canDelete={isAdmin} showCreated={isAdmin} emptyText="Nothing planned for tomorrow yet." />
+        </CollapsibleSection>
+      ) : (
+        <section>
+          <h2 className="mb-2 text-lg font-semibold">Tomorrow ({formatDate(tomorrow)})</h2>
+          <LpoTable lpos={deliveriesTomorrow} limited={limited} canDelete={isAdmin} showCreated={isAdmin} emptyText="Nothing planned for tomorrow yet." />
+        </section>
+      )}
 
-      <section>
-        <h2 className="mb-2 text-lg font-semibold">Rest of the week</h2>
-        {upcomingGroups.size === 0 ? (
-          <p className="rounded border border-dashed border-gray-300 p-6 text-center text-sm text-gray-500">
-            Nothing scheduled for the rest of the week.
-          </p>
-        ) : (
-          <div className="max-h-96 space-y-4 overflow-y-auto rounded-lg border border-gray-200 bg-gray-50 p-3">
-            {[...upcomingGroups.entries()].map(([date, rows]) => (
-              <div key={date}>
-                <h3 className="mb-1 text-sm font-semibold text-gray-600">
-                  {formatDate(date)} · {rows.length} delivery(s)
-                </h3>
-                <LpoTable lpos={rows} limited={limited} canDelete={isAdmin} showCreated={isAdmin} />
-              </div>
-            ))}
-          </div>
-        )}
-      </section>
+      {isSalesman ? (
+        <CollapsibleSection title="Rest of the week">
+          {upcomingGroups.size === 0 ? (
+            <p className="rounded border border-dashed border-gray-300 p-6 text-center text-sm text-gray-500">
+              Nothing scheduled for the rest of the week.
+            </p>
+          ) : (
+            <div className="max-h-96 space-y-4 overflow-y-auto rounded-lg border border-gray-200 bg-gray-50 p-3">
+              {[...upcomingGroups.entries()].map(([date, rows]) => (
+                <div key={date}>
+                  <h3 className="mb-1 text-sm font-semibold text-gray-600">
+                    {formatDate(date)} · {rows.length} delivery(s)
+                  </h3>
+                  <LpoTable lpos={rows} limited={limited} canDelete={isAdmin} showCreated={isAdmin} />
+                </div>
+              ))}
+            </div>
+          )}
+        </CollapsibleSection>
+      ) : (
+        <section>
+          <h2 className="mb-2 text-lg font-semibold">Rest of the week</h2>
+          {upcomingGroups.size === 0 ? (
+            <p className="rounded border border-dashed border-gray-300 p-6 text-center text-sm text-gray-500">
+              Nothing scheduled for the rest of the week.
+            </p>
+          ) : (
+            <div className="max-h-96 space-y-4 overflow-y-auto rounded-lg border border-gray-200 bg-gray-50 p-3">
+              {[...upcomingGroups.entries()].map(([date, rows]) => (
+                <div key={date}>
+                  <h3 className="mb-1 text-sm font-semibold text-gray-600">
+                    {formatDate(date)} · {rows.length} delivery(s)
+                  </h3>
+                  <LpoTable lpos={rows} limited={limited} canDelete={isAdmin} showCreated={isAdmin} />
+                </div>
+              ))}
+            </div>
+          )}
+        </section>
+      )}
 
       <section>
         <h2 className="mb-2 text-lg font-semibold">Delivered Today ({completedTodayRows.length})</h2>

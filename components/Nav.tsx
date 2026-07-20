@@ -9,11 +9,10 @@ export function Nav({ user }: { user: NavUser }) {
   let links: { href: string; label: string }[];
 
   if (user.role === ROLES.SALESMAN) {
-    // Dashboard + one merged "Deliveries" tab (schedule + search) + create.
+    // Dashboard + one merged "Deliveries" tab (schedule + search). New invoice button moved to dashboard.
     links = [
       { href: "/", label: "Dashboard" },
       { href: "/deliveries", label: "Deliveries" },
-      { href: "/lpos/new", label: "+ New Invoice" },
     ];
   } else if (user.role === ROLES.WAREHOUSE_KEEPER) {
     // Warehouse: Dashboard + Deliveries is all they need
