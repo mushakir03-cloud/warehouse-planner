@@ -125,24 +125,30 @@ export default async function DashboardPage() {
         </section>
       )}
 
-      <section>
-        <h2 className="mb-2 text-lg font-semibold">Today&apos;s Deliveries</h2>
-        <LpoTable lpos={deliveriesToday} limited={limited} canDelete={isAdmin} showCreated={isAdmin} today={today} emptyText="No deliveries planned for today." />
-      </section>
+      {isWarehouse ? (
+        <CollapsibleSection title={`Today's Deliveries [${deliveriesToday.length}]`}>
+          <LpoTable lpos={deliveriesToday} limited={limited} canDelete={isAdmin} showCreated={isAdmin} today={today} emptyText="No deliveries planned for today." />
+        </CollapsibleSection>
+      ) : (
+        <section>
+          <h2 className="mb-2 text-lg font-semibold">Today&apos;s Deliveries [{deliveriesToday.length}]</h2>
+          <LpoTable lpos={deliveriesToday} limited={limited} canDelete={isAdmin} showCreated={isAdmin} today={today} emptyText="No deliveries planned for today." />
+        </section>
+      )}
 
-      {isSalesman ? (
-        <CollapsibleSection title={`Tomorrow (${formatDate(tomorrow)})`}>
+      {isSalesman || isWarehouse ? (
+        <CollapsibleSection title={`Tomorrow (${formatDate(tomorrow)}) [${deliveriesTomorrow.length}]`}>
           <LpoTable lpos={deliveriesTomorrow} limited={limited} canDelete={isAdmin} showCreated={isAdmin} emptyText="Nothing planned for tomorrow yet." />
         </CollapsibleSection>
       ) : (
         <section>
-          <h2 className="mb-2 text-lg font-semibold">Tomorrow ({formatDate(tomorrow)})</h2>
+          <h2 className="mb-2 text-lg font-semibold">Tomorrow ({formatDate(tomorrow)}) [{deliveriesTomorrow.length}]</h2>
           <LpoTable lpos={deliveriesTomorrow} limited={limited} canDelete={isAdmin} showCreated={isAdmin} emptyText="Nothing planned for tomorrow yet." />
         </section>
       )}
 
-      {isSalesman ? (
-        <CollapsibleSection title="Rest of the week">
+      {isSalesman || isWarehouse ? (
+        <CollapsibleSection title={`Rest of the week [${upcoming.length}]`}>
           {upcomingGroups.size === 0 ? (
             <p className="rounded border border-dashed border-gray-300 p-6 text-center text-sm text-gray-500">
               Nothing scheduled for the rest of the week.
@@ -152,7 +158,7 @@ export default async function DashboardPage() {
               {[...upcomingGroups.entries()].map(([date, rows]) => (
                 <div key={date}>
                   <h3 className="mb-1 text-sm font-semibold text-gray-600">
-                    {formatDate(date)} · {rows.length} delivery(s)
+                    {formatDate(date)} [{rows.length}]
                   </h3>
                   <LpoTable lpos={rows} limited={limited} canDelete={isAdmin} showCreated={isAdmin} />
                 </div>
@@ -162,7 +168,7 @@ export default async function DashboardPage() {
         </CollapsibleSection>
       ) : (
         <section>
-          <h2 className="mb-2 text-lg font-semibold">Rest of the week</h2>
+          <h2 className="mb-2 text-lg font-semibold">Rest of the week [{upcoming.length}]</h2>
           {upcomingGroups.size === 0 ? (
             <p className="rounded border border-dashed border-gray-300 p-6 text-center text-sm text-gray-500">
               Nothing scheduled for the rest of the week.
@@ -172,7 +178,7 @@ export default async function DashboardPage() {
               {[...upcomingGroups.entries()].map(([date, rows]) => (
                 <div key={date}>
                   <h3 className="mb-1 text-sm font-semibold text-gray-600">
-                    {formatDate(date)} · {rows.length} delivery(s)
+                    {formatDate(date)} [{rows.length}]
                   </h3>
                   <LpoTable lpos={rows} limited={limited} canDelete={isAdmin} showCreated={isAdmin} />
                 </div>
@@ -183,7 +189,7 @@ export default async function DashboardPage() {
       )}
 
       <section>
-        <h2 className="mb-2 text-lg font-semibold">Delivered Today ({completedTodayRows.length})</h2>
+        <h2 className="mb-2 text-lg font-semibold">Delivered Today [{completedTodayRows.length}]</h2>
         <LpoTable lpos={completedTodayRows} limited={limited} canDelete={isAdmin} showCreated={isAdmin} emptyText="Nothing delivered yet today." />
         <p className="mt-3 text-sm">
           <Link href="/deliveries" className="text-blue-600 hover:underline">
