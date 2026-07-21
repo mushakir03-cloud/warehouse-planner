@@ -69,18 +69,33 @@ export default async function DashboardPage() {
     upcomingGroups.set(l.deliveryDate, arr);
   }
 
-  const allCounters = [
-    { label: "Deliveries Today", count: deliveriesToday.length, color: "bg-slate-700 text-white" },
-    { label: "New Invoices Today", count: newToday, color: "bg-slate-500 text-white" },
-    { label: "Pending", count: byStatus("Pending"), color: STATUS_COLORS["Pending"] },
-    { label: "Packing In Progress", count: byStatus("Packing In Progress"), color: STATUS_COLORS["Packing In Progress"] },
-    { label: "Packing Finished", count: byStatus("Packing Finished"), color: STATUS_COLORS["Packing Finished"] },
-    { label: "Delivered Today", count: completedTodayRows.length, color: STATUS_COLORS["Delivered"] },
-  ];
-
-  // For salesmen, remove the first 3 counters
   const isSalesman = user.role === ROLES.SALESMAN;
-  const counters = isSalesman ? allCounters.slice(3) : allCounters;
+  const isWarehouse = user.role === ROLES.WAREHOUSE_KEEPER;
+
+  // Warehouse keeper (Swami) gets custom counters
+  let counters;
+  if (isWarehouse) {
+    const invoicesToDeliver = deliveriesToday.length;
+    const invoicesDelivered = completedTodayRows.length;
+    const invoicesPending = invoicesToDeliver - invoicesDelivered;
+
+    counters = [
+      { label: "Invoices to be delivered today", count: invoicesToDeliver, color: "bg-blue-600 text-white" },
+      { label: "Invoices delivered", count: invoicesDelivered, color: "bg-green-600 text-white" },
+      { label: "Invoices pending for delivery", count: invoicesPending, color: "bg-orange-600 text-white" },
+    ];
+  } else {
+    const allCounters = [
+      { label: "Deliveries Today", count: deliveriesToday.length, color: "bg-slate-700 text-white" },
+      { label: "New Invoices Today", count: newToday, color: "bg-slate-500 text-white" },
+      { label: "Pending", count: byStatus("Pending"), color: STATUS_COLORS["Pending"] },
+      { label: "Packing In Progress", count: byStatus("Packing In Progress"), color: STATUS_COLORS["Packing In Progress"] },
+      { label: "Packing Finished", count: byStatus("Packing Finished"), color: STATUS_COLORS["Packing Finished"] },
+      { label: "Delivered Today", count: completedTodayRows.length, color: STATUS_COLORS["Delivered"] },
+    ];
+    // For salesmen, remove the first 3 counters
+    counters = isSalesman ? allCounters.slice(3) : allCounters;
+  }
 
   return (
     <div className="space-y-8">
