@@ -73,7 +73,7 @@ export default async function DashboardPage() {
   const isWarehouse = user.role === ROLES.WAREHOUSE_KEEPER;
 
   // Warehouse keeper (Swami) gets no stat boxes
-  let counters: { label: string; count: number; color: string }[];
+  let counters: { label: string; count: number; color: string }[] = [];
   if (isWarehouse) {
     counters = []; // No stat boxes for warehouse keeper
   } else {
