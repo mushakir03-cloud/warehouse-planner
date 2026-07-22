@@ -72,18 +72,10 @@ export default async function DashboardPage() {
   const isSalesman = user.role === ROLES.SALESMAN;
   const isWarehouse = user.role === ROLES.WAREHOUSE_KEEPER;
 
-  // Warehouse keeper (Swami) gets custom counters
+  // Warehouse keeper (Swami) gets no stat boxes
   let counters;
   if (isWarehouse) {
-    const invoicesToDeliver = deliveriesToday.length;
-    const invoicesDelivered = completedTodayRows.length;
-    const invoicesPending = invoicesToDeliver - invoicesDelivered;
-
-    counters = [
-      { label: "Invoices to be delivered today", count: invoicesToDeliver, color: "bg-blue-600 text-white" },
-      { label: "Invoices delivered", count: invoicesDelivered, color: "bg-green-600 text-white" },
-      { label: "Invoices pending for delivery", count: invoicesPending, color: "bg-orange-600 text-white" },
-    ];
+    counters = []; // No stat boxes for warehouse keeper
   } else {
     const allCounters = [
       { label: "Deliveries Today", count: deliveriesToday.length, color: "bg-slate-700 text-white" },
