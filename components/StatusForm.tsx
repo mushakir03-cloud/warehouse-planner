@@ -16,7 +16,8 @@ export function StatusForm({
 }) {
   const [selected, setSelected] = useState(current);
   const [imageBase64, setImageBase64] = useState<string>("");
-  const fileInputRef = useRef<HTMLInputElement>(null);
+  const formRef = useRef<HTMLFormElement>(null);
+
   const delivering = selected === "Delivered";
 
   const handleImageSelect = async (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -31,9 +32,7 @@ export function StatusForm({
     reader.readAsDataURL(file);
   };
 
-  const handleFormSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    const formData = new FormData(e.currentTarget);
+  const handleFormAction = async (formData: FormData) => {
     if (imageBase64) {
       formData.append("doImage", imageBase64);
     }
@@ -45,7 +44,7 @@ export function StatusForm({
   const label = "mb-1 block text-sm font-medium";
 
   return (
-    <form onSubmit={handleFormSubmit} className="space-y-4">
+    <form ref={formRef} action={handleFormAction} className="space-y-4">
       <div className="grid grid-cols-1 gap-2 sm:grid-cols-2">
         {STATUSES.map((s) => (
           <label
@@ -90,7 +89,6 @@ export function StatusForm({
           <div>
             <label className={label}>📷 Delivery Photo (optional)</label>
             <input
-              ref={fileInputRef}
               type="file"
               accept="image/*"
               onChange={handleImageSelect}
