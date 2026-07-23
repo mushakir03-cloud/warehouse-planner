@@ -117,16 +117,10 @@ export default async function DashboardPage() {
         </section>
       )}
 
-      {isWarehouse ? (
-        <CollapsibleSection title={`Today's Deliveries [${deliveriesToday.length}]`}>
-          <LpoTable lpos={deliveriesToday} limited={limited} canDelete={isAdmin} showCreated={isAdmin} today={today} emptyText="No deliveries planned for today." />
-        </CollapsibleSection>
-      ) : (
-        <section>
-          <h2 className="mb-2 text-lg font-semibold">Today&apos;s Deliveries [{deliveriesToday.length}]</h2>
-          <LpoTable lpos={deliveriesToday} limited={limited} canDelete={isAdmin} showCreated={isAdmin} today={today} emptyText="No deliveries planned for today." />
-        </section>
-      )}
+      <section>
+        <h2 className="mb-2 text-lg font-semibold">Today&apos;s Deliveries [{deliveriesToday.length}]</h2>
+        <LpoTable lpos={deliveriesToday} limited={limited} canDelete={isAdmin} showCreated={isAdmin} today={today} emptyText="No deliveries planned for today." />
+      </section>
 
       {isSalesman || isWarehouse ? (
         <CollapsibleSection title={`Tomorrow (${formatDate(tomorrow)}) [${deliveriesTomorrow.length}]`}>
