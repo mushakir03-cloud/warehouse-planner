@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { STATUSES, STATUS_COLORS } from "@/lib/constants";
 
 /**
@@ -15,14 +15,37 @@ export function StatusForm({
   current: string;
 }) {
   const [selected, setSelected] = useState(current);
+  const [imageBase64, setImageBase64] = useState<string>("");
+  const fileInputRef = useRef<HTMLInputElement>(null);
   const delivering = selected === "Delivered";
+
+  const handleImageSelect = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    const reader = new FileReader();
+    reader.onload = (event) => {
+      const base64 = event.target?.result as string;
+      setImageBase64(base64);
+    };
+    reader.readAsDataURL(file);
+  };
+
+  const handleFormSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const formData = new FormData(e.currentTarget);
+    if (imageBase64) {
+      formData.append("doImage", imageBase64);
+    }
+    await action(formData);
+  };
 
   const input =
     "w-full rounded border border-gray-300 bg-white px-3 py-2 text-sm focus:border-blue-500 focus:outline-none";
   const label = "mb-1 block text-sm font-medium";
 
   return (
-    <form action={action} className="space-y-4">
+    <form onSubmit={handleFormSubmit} className="space-y-4">
       <div className="grid grid-cols-1 gap-2 sm:grid-cols-2">
         {STATUSES.map((s) => (
           <label
@@ -67,11 +90,15 @@ export function StatusForm({
           <div>
             <label className={label}>📷 Delivery Photo (optional)</label>
             <input
-              name="doImage"
+              ref={fileInputRef}
               type="file"
               accept="image/*"
+              onChange={handleImageSelect}
               className="w-full rounded border border-gray-300 bg-white px-3 py-2 text-sm"
             />
+            {imageBase64 && (
+              <p className="mt-1 text-xs text-green-600">✓ Image selected and ready to upload</p>
+            )}
             <p className="mt-1 text-xs text-gray-500">Upload a photo of the delivery for record purposes</p>
           </div>
         </div>

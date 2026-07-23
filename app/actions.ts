@@ -142,8 +142,12 @@ export async function updateLpoStatus(lpoId: number, formData: FormData) {
     const doNumber = String(formData.get("doNumber") || "").trim();
     const deliveredBags = Math.max(0, Math.floor(Number(formData.get("deliveredBags") || 0)));
     const deliveredCartons = Math.max(0, Math.floor(Number(formData.get("deliveredCartons") || 0)));
+    const doImage = String(formData.get("doImage") || "").trim();
     if (!doNumber) throw new Error("DO number is required to confirm delivery");
     Object.assign(data, { doNumber, deliveredBags, deliveredCartons });
+    if (doImage) {
+      Object.assign(data, { doImage });
+    }
     const summary = `DO ${doNumber} · 🛍️ ${deliveredBags} bags · 📦 ${deliveredCartons} cartons`;
     note = logNote ? `${summary} — ${logNote}` : summary;
   }
