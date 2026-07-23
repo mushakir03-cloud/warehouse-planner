@@ -31,7 +31,6 @@ model Lpo {
   status           String        @default("Pending")
   // delivery confirmation, filled by warehouse when marking Delivered
   doNumber          String @default("")
-  doImage           String? // base64 encoded DO image
   deliveredQuantity Int?
   deliveredBags     Int?
   deliveredCartons  Int?
