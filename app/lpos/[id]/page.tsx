@@ -116,15 +116,6 @@ export default async function LpoDetailPage({
           <h2 className="mb-3 text-lg font-semibold">📷 Delivery Photo</h2>
           <div className="space-y-3">
             <img src={lpo.doImage} alt="Delivery Order" className="max-h-96 w-full rounded border border-gray-300 object-contain" />
-            <div>
-              <a
-                href={lpo.doImage}
-                download={`DO-${lpo.doNumber}-${formatDate(lpo.deliveryDate)}.jpg`}
-                className="inline-block rounded bg-blue-600 px-4 py-2 text-sm font-medium text-white hover:bg-blue-700"
-              >
-                ⬇️ Download Image
-              </a>
-            </div>
           </div>
         </section>
       )}
