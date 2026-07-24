@@ -50,9 +50,15 @@ export function StatusForm({
       {delivering && (
         <div className="space-y-3 rounded-lg border-2 border-green-300 bg-green-50 p-4">
           <h3 className="text-sm font-bold text-green-800">Confirm Delivery ✅</h3>
-          <div>
-            <label className={label}>DO Number (numeric only) *</label>
-            <input name="doNumber" type="number" required min={1} placeholder="e.g. 1093" className={input} />
+          <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
+            <div>
+              <label className={label}>DO Number (numeric only) *</label>
+              <input name="doNumber" type="number" required min={1} placeholder="e.g. 1093" className={input} />
+            </div>
+            <div>
+              <label className={label}>📷 Photo (optional)</label>
+              <input type="file" accept="image/*" className="w-full rounded border border-gray-300 bg-white px-3 py-2 text-sm" />
+            </div>
           </div>
           <div className="grid grid-cols-2 gap-3">
             <div>
