@@ -111,13 +111,6 @@ export default async function LpoDetailPage({
         </dl>
       </div>
 
-      {done && lpo.doImage && (
-        <section className="rounded-lg border border-gray-200 bg-white p-5 shadow-sm">
-          <h2 className="mb-3 text-lg font-semibold">📷 Delivery Photo</h2>
-          <img src={lpo.doImage} alt="Delivery Order" className="max-h-96 w-full rounded border border-gray-300 object-contain" />
-        </section>
-      )}
-
       {done && (
         <p className="rounded-lg border border-green-200 bg-green-50 p-4 text-center text-sm font-semibold text-green-800">
           ✅ This invoice is delivered and finished. It lives in History now.
