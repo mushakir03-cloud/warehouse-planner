@@ -15,14 +15,32 @@ export function StatusForm({
   current: string;
 }) {
   const [selected, setSelected] = useState(current);
+  const [imageBase64, setImageBase64] = useState<string>("");
   const delivering = selected === "Delivered";
+
+  const handleImageSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = (event) => {
+      setImageBase64(event.target?.result as string);
+    };
+    reader.readAsDataURL(file);
+  };
+
+  const handleFormAction = async (formData: FormData) => {
+    if (imageBase64) {
+      formData.append("doImage", imageBase64);
+    }
+    await action(formData);
+  };
 
   const input =
     "w-full rounded border border-gray-300 bg-white px-3 py-2 text-sm focus:border-blue-500 focus:outline-none";
   const label = "mb-1 block text-sm font-medium";
 
   return (
-    <form action={action} className="space-y-4">
+    <form action={handleFormAction} className="space-y-4">
       <div className="grid grid-cols-1 gap-2 sm:grid-cols-2">
         {STATUSES.map((s) => (
           <label
@@ -50,9 +68,21 @@ export function StatusForm({
       {delivering && (
         <div className="space-y-3 rounded-lg border-2 border-green-300 bg-green-50 p-4">
           <h3 className="text-sm font-bold text-green-800">Confirm Delivery ✅</h3>
-          <div>
-            <label className={label}>DO Number (numeric only) *</label>
-            <input name="doNumber" type="number" required min={1} placeholder="e.g. 1093" className={input} />
+          <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
+            <div>
+              <label className={label}>DO Number (numeric only) *</label>
+              <input name="doNumber" type="number" required min={1} placeholder="e.g. 1093" className={input} />
+            </div>
+            <div>
+              <label className={label}>📷 Photo (optional)</label>
+              <input
+                type="file"
+                accept="image/*"
+                onChange={handleImageSelect}
+                className="w-full rounded border border-gray-300 bg-white px-3 py-2 text-sm"
+              />
+              {imageBase64 && <p className="mt-1 text-xs text-green-600">✓ Photo ready</p>}
+            </div>
           </div>
           <div className="grid grid-cols-2 gap-3">
             <div>
