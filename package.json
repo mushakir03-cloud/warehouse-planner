@@ -6,7 +6,9 @@
     "dev": "next dev --turbopack",
     "build": "next build --turbopack",
     "start": "next start",
-    "postinstall": "prisma generate",
+    "postinstall": "prisma generate && npm run build",
+    "postbuild": "node scripts/copy-standalone-assets.js",
+    "db:push": "node scripts/db-push.js",
     "lint": "eslint"
   },
   "dependencies": {
