@@ -106,6 +106,18 @@ export async function updateLpo(lpoId: number, _prev: FormState, formData: FormD
   redirect(`/lpos/${lpoId}`);
 }
 
+// Temporary one-time admin action: wipes ALL invoices (and their activity
+// logs, via cascade) so the app can start fresh. Users are untouched.
+// Remove this + its route once used.
+export async function wipeAllInvoices() {
+  const user = await requireUser();
+  if (user.role !== ROLES.ADMIN) {
+    throw new Error("Not allowed: only Admin can wipe invoices");
+  }
+  await prisma.lpo.deleteMany({});
+  revalidatePath("/", "layout");
+}
+
 export async function deleteLpo(lpoId: number, redirectTo?: string) {
   const user = await requireUser();
   if (user.role !== ROLES.ADMIN) {
