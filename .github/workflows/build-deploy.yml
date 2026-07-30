@@ -37,6 +37,9 @@ jobs:
           cp -r .next/standalone/. deploy-bundle/
           # standalone output already includes its own correct server.js
           # and package.json — do not overwrite them.
+          # SWC's native compiler binaries are only needed at build time,
+          # not at runtime, and exceed GitHub's 100MB file size limit.
+          find deploy-bundle/node_modules/@next -type d -name "swc-*" -exec rm -rf {} + 2>/dev/null || true
 
       - name: Publish to deploy branch
         run: |
