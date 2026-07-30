@@ -49,7 +49,7 @@ function validateLpo(fields: ReturnType<typeof readLpoFields>): string | null {
 async function invoiceNumberTaken(billNumber: string, exceptId?: number) {
   const dup = await prisma.lpo.findFirst({
     where: {
-      billNumber: { equals: billNumber, mode: "insensitive" },
+      billNumber: { equals: billNumber },
       ...(exceptId ? { NOT: { id: exceptId } } : {}),
     },
     select: { id: true },
