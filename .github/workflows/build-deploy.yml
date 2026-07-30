@@ -52,7 +52,11 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git checkout --orphan deploy-tmp
-          git rm -rf . > /dev/null 2>&1 || true
+          # `checkout --orphan` only resets git's index — it does NOT clear
+          # the working directory. Wipe every leftover file from the normal
+          # checkout (source code, the real node_modules, .next, etc.)
+          # except .git itself and our freshly built deploy-bundle.
+          find . -mindepth 1 -maxdepth 1 ! -name '.git' ! -name 'deploy-bundle' -exec rm -rf {} +
           cp -r deploy-bundle/. .
           rm -rf deploy-bundle
           git add -A
