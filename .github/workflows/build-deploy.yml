@@ -45,6 +45,20 @@ jobs:
           rm -rfv deploy-bundle/node_modules/@next/swc-linux-x64-musl
           echo "--- after removal ---"
           ls -la deploy-bundle/node_modules/@next/ || echo "no @next dir"
+
+          # Standalone tracing only bundles what server.js needs at runtime,
+          # so our one-off admin scripts (db-push, seed-users) never make it
+          # in. Copy them explicitly.
+          mkdir -p deploy-bundle/scripts
+          cp scripts/db-push.js deploy-bundle/scripts/
+          cp scripts/seed-users.js deploy-bundle/scripts/
+
+          # CloudLinux's Node Selector refuses `npm install` on the server
+          # (node_modules there must be its managed venv symlink, not a
+          # real folder). Pre-install mysql2 here instead, where npm works
+          # normally, so it just ships as part of the bundle.
+          (cd deploy-bundle && npm install mysql2 --no-save)
+
           find deploy-bundle -size +90M -exec ls -lh {} \;
 
       - name: Publish to deploy branch

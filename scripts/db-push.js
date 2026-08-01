@@ -2,14 +2,10 @@
 // entirely — its schema engine is WASM-based and crashes with an
 // Out-of-Memory error on NameHero's constrained hosting. This mirrors
 // prisma/schema.prisma exactly. Safe to re-run (uses IF NOT EXISTS).
-const { execSync } = require("child_process");
-
-try {
-  require.resolve("mysql2");
-} catch {
-  execSync("npm install mysql2 --no-save", { stdio: "inherit" });
-}
-
+// mysql2 is pre-bundled into the deploy artifact by the CI build — do not
+// attempt to npm install it here. CloudLinux's Node Selector refuses any
+// npm install on the server since node_modules there isn't its managed
+// venv symlink.
 const mysql = require("mysql2/promise");
 
 const STATEMENTS = [
