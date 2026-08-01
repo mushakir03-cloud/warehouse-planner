@@ -51,16 +51,23 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git checkout --orphan deploy-tmp
-          # `checkout --orphan` only resets git's index — it does NOT clear
-          # the working directory. Wipe every leftover file from the normal
-          # checkout (source code, the real node_modules, .next, etc.)
-          # except .git itself and our freshly built deploy-bundle.
+
+          # Build continuous history on the deploy branch instead of force-
+          # pushing a disjoint orphan history each run — some git clients
+          # (possibly cPanel's) don't handle repeated non-fast-forward
+          # rewrites of the same branch well.
+          if git fetch origin deploy 2>/dev/null && git rev-parse --verify origin/deploy >/dev/null 2>&1; then
+            git checkout -B deploy origin/deploy
+          else
+            git checkout --orphan deploy
+          fi
+
+          # Clear every tracked+untracked file except .git and deploy-bundle
+          # (checkout alone doesn't remove untracked leftovers from the
+          # previous step's normal source checkout).
           find . -mindepth 1 -maxdepth 1 ! -name '.git' ! -name 'deploy-bundle' -exec rm -rf {} +
           cp -r deploy-bundle/. .
           rm -rf deploy-bundle
           git add -A
-          git commit -m "Deploy bundle from ${{ github.sha }}"
-          git branch -D deploy 2>/dev/null || true
-          git branch -m deploy
-          git push origin deploy --force
+          git commit -m "Deploy bundle from ${{ github.sha }}" --allow-empty
+          git push origin deploy
