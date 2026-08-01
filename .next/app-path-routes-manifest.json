@@ -5,10 +5,10 @@
   "/api/lpo-ping/route": "/api/lpo-ping",
   "/admin/wipe-invoices/page": "/admin/wipe-invoices",
   "/activity/page": "/activity",
-  "/history/page": "/history",
   "/deliveries/page": "/deliveries",
-  "/lpos/new/page": "/lpos/new",
+  "/history/page": "/history",
   "/login/page": "/login",
+  "/lpos/new/page": "/lpos/new",
   "/lpos/[id]/page": "/lpos/[id]",
   "/lpos/page": "/lpos",
   "/page": "/"
