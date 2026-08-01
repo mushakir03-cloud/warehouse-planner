@@ -7,9 +7,9 @@
   "/activity/page": "/activity",
   "/history/page": "/history",
   "/deliveries/page": "/deliveries",
-  "/login/page": "/login",
   "/lpos/new/page": "/lpos/new",
   "/lpos/[id]/page": "/lpos/[id]",
-  "/lpos/page": "/lpos",
-  "/page": "/"
+  "/page": "/",
+  "/login/page": "/login",
+  "/lpos/page": "/lpos"
 }
