@@ -31,13 +31,6 @@
       "static/chunks/main-app-d1788ce3d9623ab8.js",
       "static/chunks/app/api/lpo-ping/route-d825de62eb7fcaa0.js"
     ],
-    "/admin/wipe-invoices/page": [
-      "static/chunks/webpack-74c939c87fa0092a.js",
-      "static/chunks/4bd1b696-c023c6e3521b1417.js",
-      "static/chunks/255-3981a3d1f3561bd8.js",
-      "static/chunks/main-app-d1788ce3d9623ab8.js",
-      "static/chunks/app/admin/wipe-invoices/page-83d6a9be6ce4a4c4.js"
-    ],
     "/activity/page": [
       "static/chunks/webpack-74c939c87fa0092a.js",
       "static/chunks/4bd1b696-c023c6e3521b1417.js",
@@ -75,17 +68,15 @@
       "static/chunks/4bd1b696-c023c6e3521b1417.js",
       "static/chunks/255-3981a3d1f3561bd8.js",
       "static/chunks/main-app-d1788ce3d9623ab8.js",
-      "static/chunks/298-b9a4cdd148cf1a38.js",
-      "static/chunks/app/lpos/new/page-b5b81db39488e682.js"
+      "static/chunks/136-cbb100b46be54936.js",
+      "static/chunks/app/lpos/new/page-480efee7324d2895.js"
     ],
-    "/lpos/[id]/page": [
+    "/admin/wipe-invoices/page": [
       "static/chunks/webpack-74c939c87fa0092a.js",
       "static/chunks/4bd1b696-c023c6e3521b1417.js",
       "static/chunks/255-3981a3d1f3561bd8.js",
       "static/chunks/main-app-d1788ce3d9623ab8.js",
-      "static/chunks/619-ba102abea3e3d0e4.js",
-      "static/chunks/298-b9a4cdd148cf1a38.js",
-      "static/chunks/app/lpos/[id]/page-bd3598c681b1af9d.js"
+      "static/chunks/app/admin/wipe-invoices/page-9beef2128e326d1d.js"
     ],
     "/lpos/page": [
       "static/chunks/webpack-74c939c87fa0092a.js",
@@ -94,6 +85,15 @@
       "static/chunks/main-app-d1788ce3d9623ab8.js",
       "static/chunks/619-ba102abea3e3d0e4.js",
       "static/chunks/app/lpos/page-c087c3283f3eef8c.js"
+    ],
+    "/lpos/[id]/page": [
+      "static/chunks/webpack-74c939c87fa0092a.js",
+      "static/chunks/4bd1b696-c023c6e3521b1417.js",
+      "static/chunks/255-3981a3d1f3561bd8.js",
+      "static/chunks/main-app-d1788ce3d9623ab8.js",
+      "static/chunks/619-ba102abea3e3d0e4.js",
+      "static/chunks/136-cbb100b46be54936.js",
+      "static/chunks/app/lpos/[id]/page-2051412ffcbb96a0.js"
     ],
     "/page": [
       "static/chunks/webpack-74c939c87fa0092a.js",
