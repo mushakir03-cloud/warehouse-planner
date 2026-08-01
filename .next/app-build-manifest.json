@@ -31,13 +31,12 @@
       "static/chunks/main-app-d1788ce3d9623ab8.js",
       "static/chunks/app/api/lpo-ping/route-d825de62eb7fcaa0.js"
     ],
-    "/activity/page": [
+    "/admin/wipe-invoices/page": [
       "static/chunks/webpack-74c939c87fa0092a.js",
       "static/chunks/4bd1b696-c023c6e3521b1417.js",
       "static/chunks/255-3981a3d1f3561bd8.js",
       "static/chunks/main-app-d1788ce3d9623ab8.js",
-      "static/chunks/619-ba102abea3e3d0e4.js",
-      "static/chunks/app/activity/page-2b97e84937e58d85.js"
+      "static/chunks/app/admin/wipe-invoices/page-881f02d35f9d6185.js"
     ],
     "/history/page": [
       "static/chunks/webpack-74c939c87fa0092a.js",
@@ -47,14 +46,6 @@
       "static/chunks/619-ba102abea3e3d0e4.js",
       "static/chunks/app/history/page-9a2aeb7fcd827995.js"
     ],
-    "/login/page": [
-      "static/chunks/webpack-74c939c87fa0092a.js",
-      "static/chunks/4bd1b696-c023c6e3521b1417.js",
-      "static/chunks/255-3981a3d1f3561bd8.js",
-      "static/chunks/main-app-d1788ce3d9623ab8.js",
-      "static/chunks/356-1143d17a0ca27254.js",
-      "static/chunks/app/login/page-a88d0ea6211135f4.js"
-    ],
     "/deliveries/page": [
       "static/chunks/webpack-74c939c87fa0092a.js",
       "static/chunks/4bd1b696-c023c6e3521b1417.js",
@@ -63,20 +54,30 @@
       "static/chunks/619-ba102abea3e3d0e4.js",
       "static/chunks/app/deliveries/page-c087c3283f3eef8c.js"
     ],
+    "/login/page": [
+      "static/chunks/webpack-74c939c87fa0092a.js",
+      "static/chunks/4bd1b696-c023c6e3521b1417.js",
+      "static/chunks/255-3981a3d1f3561bd8.js",
+      "static/chunks/main-app-d1788ce3d9623ab8.js",
+      "static/chunks/356-1143d17a0ca27254.js",
+      "static/chunks/app/login/page-a88d0ea6211135f4.js"
+    ],
     "/lpos/new/page": [
       "static/chunks/webpack-74c939c87fa0092a.js",
       "static/chunks/4bd1b696-c023c6e3521b1417.js",
       "static/chunks/255-3981a3d1f3561bd8.js",
       "static/chunks/main-app-d1788ce3d9623ab8.js",
-      "static/chunks/136-cbb100b46be54936.js",
-      "static/chunks/app/lpos/new/page-480efee7324d2895.js"
+      "static/chunks/613-fa289c8c77829847.js",
+      "static/chunks/app/lpos/new/page-e5313c83a4aae80a.js"
     ],
-    "/admin/wipe-invoices/page": [
+    "/lpos/[id]/page": [
       "static/chunks/webpack-74c939c87fa0092a.js",
       "static/chunks/4bd1b696-c023c6e3521b1417.js",
       "static/chunks/255-3981a3d1f3561bd8.js",
       "static/chunks/main-app-d1788ce3d9623ab8.js",
-      "static/chunks/app/admin/wipe-invoices/page-9beef2128e326d1d.js"
+      "static/chunks/619-ba102abea3e3d0e4.js",
+      "static/chunks/613-fa289c8c77829847.js",
+      "static/chunks/app/lpos/[id]/page-aaa3ecccc03cea91.js"
     ],
     "/lpos/page": [
       "static/chunks/webpack-74c939c87fa0092a.js",
@@ -86,14 +87,13 @@
       "static/chunks/619-ba102abea3e3d0e4.js",
       "static/chunks/app/lpos/page-c087c3283f3eef8c.js"
     ],
-    "/lpos/[id]/page": [
+    "/activity/page": [
       "static/chunks/webpack-74c939c87fa0092a.js",
       "static/chunks/4bd1b696-c023c6e3521b1417.js",
       "static/chunks/255-3981a3d1f3561bd8.js",
       "static/chunks/main-app-d1788ce3d9623ab8.js",
       "static/chunks/619-ba102abea3e3d0e4.js",
-      "static/chunks/136-cbb100b46be54936.js",
-      "static/chunks/app/lpos/[id]/page-2051412ffcbb96a0.js"
+      "static/chunks/app/activity/page-2b97e84937e58d85.js"
     ],
     "/page": [
       "static/chunks/webpack-74c939c87fa0092a.js",
