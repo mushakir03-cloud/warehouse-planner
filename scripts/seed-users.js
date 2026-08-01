@@ -26,7 +26,14 @@ async function main() {
 
 main()
   .catch((e) => {
-    console.error(e);
+    // cPanel's "Run JS Script" output truncates long stderr, hiding the
+    // actual error (e.g. Prisma's searchedLocations list). Write the full
+    // thing to a file we can read via File Manager instead.
+    require("fs").writeFileSync(
+      __dirname + "/../seed-error.log",
+      String(e && e.stack ? e.stack : e) + "\n\nfull error object:\n" + require("util").inspect(e, { depth: 5 })
+    );
+    console.error("Failed — see seed-error.log for full details");
     process.exit(1);
   })
   .finally(() => prisma.$disconnect());
