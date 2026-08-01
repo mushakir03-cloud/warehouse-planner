@@ -4,12 +4,12 @@
   "/favicon.ico/route": "app/favicon.ico/route.js",
   "/api/lpo-ping/route": "app/api/lpo-ping/route.js",
   "/admin/wipe-invoices/page": "app/admin/wipe-invoices/page.js",
+  "/activity/page": "app/activity/page.js",
   "/history/page": "app/history/page.js",
   "/deliveries/page": "app/deliveries/page.js",
   "/login/page": "app/login/page.js",
   "/lpos/new/page": "app/lpos/new/page.js",
   "/lpos/[id]/page": "app/lpos/[id]/page.js",
   "/lpos/page": "app/lpos/page.js",
-  "/activity/page": "app/activity/page.js",
   "/page": "app/page.js"
 }

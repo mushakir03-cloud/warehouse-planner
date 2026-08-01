@@ -36,7 +36,15 @@
       "static/chunks/4bd1b696-c023c6e3521b1417.js",
       "static/chunks/255-3981a3d1f3561bd8.js",
       "static/chunks/main-app-d1788ce3d9623ab8.js",
-      "static/chunks/app/admin/wipe-invoices/page-71aac03ae9f6dfb4.js"
+      "static/chunks/app/admin/wipe-invoices/page-978ec55e6aae9142.js"
+    ],
+    "/activity/page": [
+      "static/chunks/webpack-74c939c87fa0092a.js",
+      "static/chunks/4bd1b696-c023c6e3521b1417.js",
+      "static/chunks/255-3981a3d1f3561bd8.js",
+      "static/chunks/main-app-d1788ce3d9623ab8.js",
+      "static/chunks/619-ba102abea3e3d0e4.js",
+      "static/chunks/app/activity/page-2b97e84937e58d85.js"
     ],
     "/history/page": [
       "static/chunks/webpack-74c939c87fa0092a.js",
@@ -67,8 +75,8 @@
       "static/chunks/4bd1b696-c023c6e3521b1417.js",
       "static/chunks/255-3981a3d1f3561bd8.js",
       "static/chunks/main-app-d1788ce3d9623ab8.js",
-      "static/chunks/316-e35b3210851844ff.js",
-      "static/chunks/app/lpos/new/page-7179ef4c78024a92.js"
+      "static/chunks/501-4a0d053d6eed4a71.js",
+      "static/chunks/app/lpos/new/page-e515031d372dcb3b.js"
     ],
     "/lpos/[id]/page": [
       "static/chunks/webpack-74c939c87fa0092a.js",
@@ -76,8 +84,8 @@
       "static/chunks/255-3981a3d1f3561bd8.js",
       "static/chunks/main-app-d1788ce3d9623ab8.js",
       "static/chunks/619-ba102abea3e3d0e4.js",
-      "static/chunks/316-e35b3210851844ff.js",
-      "static/chunks/app/lpos/[id]/page-875133758de4951f.js"
+      "static/chunks/501-4a0d053d6eed4a71.js",
+      "static/chunks/app/lpos/[id]/page-1dcc1569555e5224.js"
     ],
     "/lpos/page": [
       "static/chunks/webpack-74c939c87fa0092a.js",
@@ -86,14 +94,6 @@
       "static/chunks/main-app-d1788ce3d9623ab8.js",
       "static/chunks/619-ba102abea3e3d0e4.js",
       "static/chunks/app/lpos/page-c087c3283f3eef8c.js"
-    ],
-    "/activity/page": [
-      "static/chunks/webpack-74c939c87fa0092a.js",
-      "static/chunks/4bd1b696-c023c6e3521b1417.js",
-      "static/chunks/255-3981a3d1f3561bd8.js",
-      "static/chunks/main-app-d1788ce3d9623ab8.js",
-      "static/chunks/619-ba102abea3e3d0e4.js",
-      "static/chunks/app/activity/page-2b97e84937e58d85.js"
     ],
     "/page": [
       "static/chunks/webpack-74c939c87fa0092a.js",
