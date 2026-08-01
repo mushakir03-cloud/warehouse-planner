@@ -56,8 +56,9 @@ jobs:
           # pushing a disjoint orphan history each run — some git clients
           # (possibly cPanel's) don't handle repeated non-fast-forward
           # rewrites of the same branch well.
+          git checkout -- . 2>/dev/null || true
           if git fetch origin deploy 2>/dev/null && git rev-parse --verify origin/deploy >/dev/null 2>&1; then
-            git checkout -B deploy origin/deploy
+            git checkout -f -B deploy origin/deploy
           else
             git checkout --orphan deploy
           fi
