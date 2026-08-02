@@ -2,8 +2,16 @@
   "version": 3,
   "pages404": true,
   "caseSensitive": false,
-  "basePath": "",
+  "basePath": "/delivery",
   "redirects": [
+    {
+      "source": "/delivery/",
+      "destination": "/delivery",
+      "basePath": false,
+      "internal": true,
+      "statusCode": 308,
+      "regex": "^/delivery/$"
+    },
     {
       "source": "/:path+/",
       "destination": "/:path+",
