@@ -3,13 +3,13 @@
   "/api/admin/clear-data/route": "/api/admin/clear-data",
   "/favicon.ico/route": "/favicon.ico",
   "/api/lpo-ping/route": "/api/lpo-ping",
-  "/deliveries/page": "/deliveries",
-  "/history/page": "/history",
-  "/login/page": "/login",
-  "/admin/wipe-invoices/page": "/admin/wipe-invoices",
   "/activity/page": "/activity",
+  "/history/page": "/history",
+  "/deliveries/page": "/deliveries",
+  "/login/page": "/login",
   "/lpos/new/page": "/lpos/new",
+  "/admin/wipe-invoices/page": "/admin/wipe-invoices",
   "/lpos/[id]/page": "/lpos/[id]",
-  "/lpos/page": "/lpos",
-  "/page": "/"
+  "/page": "/",
+  "/lpos/page": "/lpos"
 }
