@@ -113,23 +113,23 @@ export default async function DashboardPage() {
       {overdue.length > 0 && (
         <section>
           <h2 className="mb-2 text-lg font-semibold text-red-700">⚠ Overdue Deliveries</h2>
-          <LpoTable lpos={overdue} limited={limited} canDelete={isAdmin} showCreated={isAdmin} today={today} />
+          <LpoTable lpos={overdue} limited={limited} canDelete={isAdmin} showCreated={isAdmin} compact={isSalesman} today={today} />
         </section>
       )}
 
       <section>
         <h2 className="mb-2 text-lg font-semibold">Today&apos;s Deliveries [{deliveriesToday.length}]</h2>
-        <LpoTable lpos={deliveriesToday} limited={limited} canDelete={isAdmin} showCreated={isAdmin} today={today} emptyText="No deliveries planned for today." />
+        <LpoTable lpos={deliveriesToday} limited={limited} canDelete={isAdmin} showCreated={isAdmin} compact={isSalesman} today={today} emptyText="No deliveries planned for today." />
       </section>
 
       {isSalesman || isWarehouse ? (
         <CollapsibleSection title={`Tomorrow (${formatDate(tomorrow)}) [${deliveriesTomorrow.length}]`}>
-          <LpoTable lpos={deliveriesTomorrow} limited={limited} canDelete={isAdmin} showCreated={isAdmin} emptyText="Nothing planned for tomorrow yet." />
+          <LpoTable lpos={deliveriesTomorrow} limited={limited} canDelete={isAdmin} showCreated={isAdmin} compact={isSalesman} emptyText="Nothing planned for tomorrow yet." />
         </CollapsibleSection>
       ) : (
         <section>
           <h2 className="mb-2 text-lg font-semibold">Tomorrow ({formatDate(tomorrow)}) [{deliveriesTomorrow.length}]</h2>
-          <LpoTable lpos={deliveriesTomorrow} limited={limited} canDelete={isAdmin} showCreated={isAdmin} emptyText="Nothing planned for tomorrow yet." />
+          <LpoTable lpos={deliveriesTomorrow} limited={limited} canDelete={isAdmin} showCreated={isAdmin} compact={isSalesman} emptyText="Nothing planned for tomorrow yet." />
         </section>
       )}
 
@@ -146,7 +146,7 @@ export default async function DashboardPage() {
                   <h3 className="mb-1 text-sm font-semibold text-gray-600">
                     {formatDate(date)} [{rows.length}]
                   </h3>
-                  <LpoTable lpos={rows} limited={limited} canDelete={isAdmin} showCreated={isAdmin} />
+                  <LpoTable lpos={rows} limited={limited} canDelete={isAdmin} showCreated={isAdmin} compact={isSalesman} />
                 </div>
               ))}
             </div>
@@ -166,7 +166,7 @@ export default async function DashboardPage() {
                   <h3 className="mb-1 text-sm font-semibold text-gray-600">
                     {formatDate(date)} [{rows.length}]
                   </h3>
-                  <LpoTable lpos={rows} limited={limited} canDelete={isAdmin} showCreated={isAdmin} />
+                  <LpoTable lpos={rows} limited={limited} canDelete={isAdmin} showCreated={isAdmin} compact={isSalesman} />
                 </div>
               ))}
             </div>
@@ -176,7 +176,7 @@ export default async function DashboardPage() {
 
       <section>
         <h2 className="mb-2 text-lg font-semibold">Delivered Today [{completedTodayRows.length}]</h2>
-        <LpoTable lpos={completedTodayRows} limited={limited} canDelete={isAdmin} showCreated={isAdmin} emptyText="Nothing delivered yet today." />
+        <LpoTable lpos={completedTodayRows} limited={limited} canDelete={isAdmin} showCreated={isAdmin} compact={isSalesman} emptyText="Nothing delivered yet today." />
         <p className="mt-3 text-sm">
           <Link href="/deliveries" className="text-blue-600 hover:underline">
             View full delivery schedule →
