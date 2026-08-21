@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Suspense } from "react";
 import "./globals.css";
 import { getCurrentUser } from "@/lib/auth";
+import { asset } from "@/lib/constants";
 import { Nav } from "@/components/Nav";
 import { BackButton } from "@/components/BackButton";
 import { NewLpoWatcher } from "@/components/NewLpoWatcher";
@@ -10,8 +11,8 @@ import { SavedToast } from "@/components/SavedToast";
 export const metadata: Metadata = {
   title: "Delivery Order Tracker",
   description: "Track and manage delivery orders efficiently",
-  manifest: "/manifest.json",
-  icons: { icon: "/icon-192.png", apple: "/icon-192.png" },
+  manifest: asset("/manifest.json"),
+  icons: { icon: asset("/icon-192.png"), apple: asset("/icon-192.png") },
 };
 
 export const viewport = {

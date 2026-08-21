@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
+import { asset } from "@/lib/constants";
 
 /**
  * Mounted only for the warehouse login. Checks the server every 15 seconds;
@@ -41,7 +42,7 @@ export function NewLpoWatcher() {
 
     const check = async () => {
       try {
-        const res = await fetch("/api/lpo-ping", { cache: "no-store" });
+        const res = await fetch(asset("/api/lpo-ping"), { cache: "no-store" });
         if (!res.ok || stopped) return;
         const data: { maxId: number; customerName: string } = await res.json();
         if (lastSeen.current === null || data.maxId < lastSeen.current) {

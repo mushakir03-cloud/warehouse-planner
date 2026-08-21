@@ -136,3 +136,9 @@ export function formatTime(d: Date) {
     hour12: true,
   }).format(d);
 }
+
+// The app is served from a subpath (applesbags.com/delivery). Next.js applies
+// basePath to <Link>/redirects automatically, but NOT to files in public/ —
+// those must be prefixed by hand. Keep this in sync with next.config.ts.
+export const BASE_PATH = "/delivery";
+export const asset = (path: string) => `${BASE_PATH}${path}`;

@@ -1,7 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { logout } from "@/app/actions";
-import { ROLES, getUserRoleLabel } from "@/lib/constants";
+import { ROLES, asset, getUserRoleLabel } from "@/lib/constants";
 
 type NavUser = { name: string; role: string };
 
@@ -37,7 +37,7 @@ export function Nav({ user }: { user: NavUser }) {
       <div className="mx-auto flex max-w-6xl flex-wrap items-center gap-x-4 gap-y-2 px-4 py-3">
         <Link href="/" className="flex items-center gap-2 text-lg font-bold">
           <span className="rounded bg-white p-1">
-            <Image src="/logo.svg" alt="Delivery Order Tracker" width={28} height={20} />
+            <Image src={asset("/logo.svg")} alt="Delivery Order Tracker" width={28} height={20} />
           </span>
           Delivery Order Tracker
         </Link>
