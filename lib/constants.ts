@@ -142,3 +142,17 @@ export function formatTime(d: Date) {
 // those must be prefixed by hand. Keep this in sync with next.config.ts.
 export const BASE_PATH = "/delivery";
 export const asset = (path: string) => `${BASE_PATH}${path}`;
+
+// Compact elapsed-time label for the activity timeline ("2h 11m", "3d 4h").
+export function formatDuration(ms: number) {
+  if (ms < 0) return "-";
+  const mins = Math.round(ms / 60000);
+  if (mins < 1) return "<1m";
+  if (mins < 60) return `${mins}m`;
+  const hours = Math.floor(mins / 60);
+  const remMins = mins % 60;
+  if (hours < 24) return remMins ? `${hours}h ${remMins}m` : `${hours}h`;
+  const days = Math.floor(hours / 24);
+  const remHours = hours % 24;
+  return remHours ? `${days}d ${remHours}h` : `${days}d`;
+}

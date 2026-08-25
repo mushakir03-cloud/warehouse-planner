@@ -7,22 +7,28 @@ import {
   computeDailySerials,
   dubaiDateKey,
   formatDate,
+  formatDuration,
   formatTime,
 } from "@/lib/constants";
 import { StatusBadge } from "@/components/Badges";
 
 export const dynamic = "force-dynamic";
 
-type Event = {
+/** One step in an invoice's life: the status it entered, when, and who did it. */
+type Stage = {
+  status: string;
   at: Date;
-  kind: "created" | "status";
   who: string;
+  note?: string;
+  isCreation?: boolean;
+};
+
+type Journey = {
   lpoId: number;
   serial?: number;
   customer: string;
-  from?: string;
-  to?: string;
-  note?: string;
+  stages: Stage[];
+  done: boolean;
 };
 
 export default async function ActivityPage() {
@@ -36,48 +42,67 @@ export default async function ActivityPage() {
   ]);
   const serials = computeDailySerials(allForSerial);
 
-  // Build one combined timeline: invoice-created events + every status change
-  const events: Event[] = [];
-  for (const inv of invoices) {
-    events.push({
-      at: inv.createdAt,
-      kind: "created",
-      who: inv.createdBy.name,
+  // Bucket the status changes by invoice, oldest first, so each invoice's
+  // stages read left-to-right in the order they actually happened.
+  const logsByLpo = new Map<number, typeof logs>();
+  for (const log of logs) {
+    const arr = logsByLpo.get(log.lpoId) || [];
+    arr.push(log);
+    logsByLpo.set(log.lpoId, arr);
+  }
+  for (const arr of logsByLpo.values()) {
+    arr.sort((a, b) => a.createdAt.getTime() - b.createdAt.getTime());
+  }
+
+  const journeys: Journey[] = invoices.map((inv) => {
+    const invLogs = logsByLpo.get(inv.id) || [];
+    // The invoice starts in whatever status the first change moved it out of
+    // (normally "Pending"); with no changes yet, it's still in its current one.
+    const startStatus = invLogs.length ? invLogs[0].oldStatus : inv.status;
+    const stages: Stage[] = [
+      {
+        status: startStatus,
+        at: inv.createdAt,
+        who: inv.createdBy.name,
+        isCreation: true,
+      },
+      ...invLogs.map((log) => ({
+        status: log.newStatus,
+        at: log.createdAt,
+        who: log.changedBy.name,
+        note: log.notes || undefined,
+      })),
+    ];
+    return {
       lpoId: inv.id,
       serial: serials[inv.id],
       customer: inv.customerName,
-    });
-  }
-  for (const log of logs) {
-    events.push({
-      at: log.createdAt,
-      kind: "status",
-      who: log.changedBy.name,
-      lpoId: log.lpoId,
-      serial: serials[log.lpoId],
-      customer: invoices.find((i) => i.id === log.lpoId)?.customerName ?? "",
-      from: log.oldStatus,
-      to: log.newStatus,
-      note: log.notes,
-    });
-  }
+      stages,
+      done: inv.status === "Delivered",
+    };
+  });
 
-  // Group by UAE date; newest day first, chronological within a day
-  const groups = new Map<string, Event[]>();
-  for (const e of events) {
-    const key = dubaiDateKey(e.at);
+  // Group by the day the invoice was created; newest day first.
+  const groups = new Map<string, Journey[]>();
+  for (const j of journeys) {
+    const key = dubaiDateKey(j.stages[0].at);
     const arr = groups.get(key) || [];
-    arr.push(e);
+    arr.push(j);
     groups.set(key, arr);
   }
   const dates = [...groups.keys()].sort().reverse();
-  for (const d of dates) groups.get(d)!.sort((a, b) => a.at.getTime() - b.at.getTime());
+  for (const d of dates) {
+    groups.get(d)!.sort((a, b) => a.stages[0].at.getTime() - b.stages[0].at.getTime());
+  }
+
+  const now = Date.now();
 
   return (
     <div className="space-y-6">
       <h1 className="text-2xl font-bold">Activity Log</h1>
       <p className="text-sm text-gray-500">
-        Everything that happened, grouped by day — who created each invoice and every status change, with the exact time.
+        Each invoice&apos;s full journey — every status it passed through, when it got there,
+        who moved it, and how long each stage took.
       </p>
 
       {dates.length === 0 && (
@@ -91,28 +116,83 @@ export default async function ActivityPage() {
           <h2 className="mb-2 border-b border-gray-200 pb-1 text-lg font-semibold">
             {formatDate(date)}
           </h2>
-          <ul className="space-y-1.5">
-            {groups.get(date)!.map((e, i) => (
-              <li key={i} className="flex flex-wrap items-center gap-x-2 gap-y-1 rounded-lg bg-white p-2.5 text-sm shadow-sm">
-                <span className="w-20 shrink-0 font-mono text-xs text-gray-500">{formatTime(e.at)}</span>
-                <Link href={`/lpos/${e.lpoId}`} className="font-medium text-blue-600 hover:underline">
-                  {e.serial != null ? `#${e.serial}` : `INV-${e.lpoId}`}
-                </Link>
-                <span className="text-gray-700">{e.customer}</span>
-                <span className="text-gray-400">—</span>
-                {e.kind === "created" ? (
-                  <span>🆕 created by <strong>{e.who}</strong></span>
-                ) : (
-                  <span className="flex flex-wrap items-center gap-1">
-                    <StatusBadge status={e.from!} />
-                    <span className="text-gray-400">→</span>
-                    <StatusBadge status={e.to!} />
-                    <span>by <strong>{e.who}</strong></span>
-                    {e.note ? <span className="text-gray-500">· {e.note}</span> : null}
-                  </span>
-                )}
-              </li>
-            ))}
+          <ul className="space-y-3">
+            {groups.get(date)!.map((j) => {
+              const first = j.stages[0];
+              const last = j.stages[j.stages.length - 1];
+              const totalMs = last.at.getTime() - first.at.getTime();
+              return (
+                <li key={j.lpoId} className="rounded-lg bg-white p-3 shadow-sm">
+                  <div className="mb-2 flex flex-wrap items-baseline gap-x-2 gap-y-1">
+                    <Link
+                      href={`/lpos/${j.lpoId}`}
+                      className="font-semibold text-blue-600 hover:underline"
+                    >
+                      {j.serial != null ? `#${j.serial}` : `INV-${j.lpoId}`}
+                    </Link>
+                    <span className="font-medium text-gray-800">{j.customer}</span>
+                    {j.stages.length > 1 && (
+                      <span className="text-xs text-gray-500">
+                        · {j.done ? "completed in" : "open for"}{" "}
+                        <strong className="text-gray-700">
+                          {formatDuration(j.done ? totalMs : now - first.at.getTime())}
+                        </strong>
+                      </span>
+                    )}
+                  </div>
+
+                  <div className="overflow-x-auto">
+                    <div className="flex min-w-max items-start gap-1">
+                      {j.stages.map((s, i) => {
+                        const nextStage = j.stages[i + 1];
+                        return (
+                          <div key={i} className="flex items-start gap-1">
+                            <div className="min-w-[150px] px-1">
+                              <StatusBadge status={s.status} />
+                              <p className="mt-1 font-mono text-xs text-gray-600">
+                                {formatTime(s.at)}
+                              </p>
+                              <p className="text-xs text-gray-500">
+                                {s.isCreation ? "created by " : "by "}
+                                <strong className="font-medium text-gray-700">{s.who}</strong>
+                              </p>
+                              {s.note && (
+                                <p className="mt-0.5 max-w-[190px] text-xs text-gray-500">{s.note}</p>
+                              )}
+                            </div>
+
+                            {nextStage && (
+                              <div className="flex shrink-0 flex-col items-center pt-1.5">
+                                <span className="whitespace-nowrap text-xs font-medium text-gray-500">
+                                  {formatDuration(nextStage.at.getTime() - s.at.getTime())}
+                                </span>
+                                <span className="text-lg leading-none text-gray-300">&rarr;</span>
+                              </div>
+                            )}
+                          </div>
+                        );
+                      })}
+
+                      {!j.done && (
+                        <div className="flex shrink-0 items-start gap-1">
+                          <div className="flex flex-col items-center pt-1.5">
+                            <span className="whitespace-nowrap text-xs font-medium text-amber-600">
+                              {formatDuration(now - last.at.getTime())}
+                            </span>
+                            <span className="text-lg leading-none text-gray-300">&rarr;</span>
+                          </div>
+                          <div className="min-w-[110px] px-1 pt-0.5">
+                            <span className="rounded-full border border-dashed border-amber-400 px-2.5 py-0.5 text-xs font-semibold text-amber-700">
+                              still here
+                            </span>
+                          </div>
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                </li>
+              );
+            })}
           </ul>
         </section>
       ))}
