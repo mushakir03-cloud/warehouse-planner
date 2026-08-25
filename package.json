@@ -10,6 +10,7 @@
     "postbuild": "node scripts/copy-standalone-assets.js",
     "db:push": "node scripts/db-push.js",
     "seed:users": "node scripts/seed-users.js",
+    "set:password": "node scripts/set-admin-password.js",
     "lint": "eslint"
   },
   "dependencies": {

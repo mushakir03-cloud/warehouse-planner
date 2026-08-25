@@ -52,6 +52,7 @@ jobs:
           mkdir -p deploy-bundle/scripts
           cp scripts/db-push.js deploy-bundle/scripts/
           cp scripts/seed-users.js deploy-bundle/scripts/
+          cp scripts/set-admin-password.js deploy-bundle/scripts/
 
           # CloudLinux's Node Selector refuses `npm install` on the server
           # (node_modules there must be its managed venv symlink, not a
