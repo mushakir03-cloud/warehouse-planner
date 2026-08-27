@@ -6,10 +6,10 @@
   "/admin/wipe-invoices/page": "/admin/wipe-invoices",
   "/deliveries/page": "/deliveries",
   "/login/page": "/login",
-  "/history/page": "/history",
   "/lpos/new/page": "/lpos/new",
-  "/lpos/page": "/lpos",
-  "/page": "/",
+  "/history/page": "/history",
   "/lpos/[id]/page": "/lpos/[id]",
+  "/page": "/",
+  "/lpos/page": "/lpos",
   "/activity/page": "/activity"
 }
