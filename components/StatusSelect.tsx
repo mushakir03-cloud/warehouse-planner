@@ -21,7 +21,7 @@ export function StatusSelect({
 
   const input =
     "w-full rounded-xl border border-hairline bg-white px-3.5 py-2.5 text-sm transition-colors placeholder:text-gray-400 focus:border-accent focus:outline-none";
-  const label = "mb-1 block text-sm font-medium";
+  const label = "mb-1.5 block text-sm font-medium text-gray-700";
 
   const resetSelect = () => {
     if (ref.current) ref.current.value = current;
@@ -44,7 +44,7 @@ export function StatusSelect({
           fd.set("status", next);
           startTransition(() => action(fd));
         }}
-        className={`rounded-lg border border-gray-300 px-2 py-2 text-sm font-semibold disabled:opacity-50 ${
+        className={`rounded-lg border border-hairline px-2 py-1.5 text-sm font-medium disabled:opacity-50 ${
           STATUS_COLORS[current] || "bg-white"
         }`}
       >
@@ -56,9 +56,9 @@ export function StatusSelect({
       </select>
 
       {confirmDelivery && (
-        <div className="fixed inset-0 z-[70] flex items-center justify-center bg-black/40 p-4">
+        <div className="fixed inset-0 z-[70] flex items-center justify-center bg-black/40 p-4 backdrop-blur-sm">
           <form
-            className="w-full max-w-sm space-y-3 rounded-xl bg-white p-5 shadow-2xl"
+            className="w-full max-w-sm space-y-3 rounded-2xl bg-white p-5 shadow-2xl"
             onSubmit={(e) => {
               e.preventDefault();
               const fd = new FormData(e.currentTarget);
@@ -67,10 +67,10 @@ export function StatusSelect({
               startTransition(() => action(fd));
             }}
           >
-            <h3 className="text-lg font-bold">Confirm Delivery ✅</h3>
+            <h3 className="text-[17px] font-semibold tracking-tight text-gray-900">Confirm Delivery ✅</h3>
             <div>
-              <label className={label}>DO Number (delivery order) *</label>
-              <input name="doNumber" required placeholder="e.g. DO-1093" className={input} />
+              <label className={label}>DO Number (numeric only) *</label>
+              <input name="doNumber" type="number" required min={1} placeholder="e.g. 1093" className={input} />
             </div>
             <div className="grid grid-cols-2 gap-3">
               <div>
@@ -88,14 +88,14 @@ export function StatusSelect({
             <div className="flex gap-2 pt-1">
               <button
                 type="submit"
-                className="flex-1 rounded bg-green-700 py-2.5 text-sm font-semibold text-white hover:bg-green-600"
+                className="inline-flex flex-1 items-center justify-center rounded-full bg-green-700 py-2.5 text-sm font-medium text-white transition-colors hover:bg-green-600"
               >
                 Confirm Delivery
               </button>
               <button
                 type="button"
                 onClick={resetSelect}
-                className="rounded border border-gray-300 px-4 py-2.5 text-sm hover:bg-gray-50"
+                className="inline-flex items-center rounded-full border border-hairline px-4 py-2.5 text-sm text-gray-700 transition-colors hover:bg-gray-50"
               >
                 Cancel
               </button>
