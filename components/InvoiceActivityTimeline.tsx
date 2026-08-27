@@ -28,7 +28,7 @@ export function InvoiceActivityTimeline({ lpo }: { lpo: Lpo }) {
   return (
     <div className="space-y-4">
       {/* Invoice context header */}
-      <div className="rounded-lg bg-slate-50 p-4 text-sm">
+      <div className="rounded-2xl border border-hairline/60 bg-gray-50/70 p-4 text-sm">
         <div className="grid grid-cols-1 gap-2 sm:grid-cols-3">
           <div>
             <p className="text-xs font-medium text-gray-500">Customer</p>
@@ -48,7 +48,7 @@ export function InvoiceActivityTimeline({ lpo }: { lpo: Lpo }) {
       {/* Timeline events */}
       <div className="space-y-3">
         {/* Creation event */}
-        <div className="flex gap-3 rounded-lg border border-gray-200 bg-white p-3 text-sm shadow-sm">
+        <div className="flex gap-3 rounded-lg border border-gray-200 bg-white p-3 text-sm shadow-[0_1px_2px_rgba(0,0,0,0.04)]">
           <div className="shrink-0 pt-1 text-lg">🆕</div>
           <div className="flex-1 min-w-0">
             <p className="text-gray-900">
@@ -67,7 +67,7 @@ export function InvoiceActivityTimeline({ lpo }: { lpo: Lpo }) {
           sortedLogs.map((log) => (
             <div
               key={log.id}
-              className="flex gap-3 rounded-lg border border-gray-200 bg-white p-3 text-sm shadow-sm"
+              className="flex gap-3 rounded-lg border border-gray-200 bg-white p-3 text-sm shadow-[0_1px_2px_rgba(0,0,0,0.04)]"
             >
               <div className="shrink-0 flex items-center gap-1 pt-0.5">
                 <StatusBadge status={log.oldStatus} />

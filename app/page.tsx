@@ -4,7 +4,6 @@ import { prisma } from "@/lib/db";
 import { getCurrentUser } from "@/lib/auth";
 import {
   ROLES,
-  STATUS_COLORS,
   computeDailySerials,
   dayStartInstant,
   todayStr,
@@ -13,6 +12,7 @@ import {
 import { LpoTable, LpoRow } from "@/components/LpoTable";
 import { CollapsibleSection } from "@/components/CollapsibleSection";
 import { NewInvoiceButton } from "@/components/NewInvoiceButton";
+import { card } from "@/lib/ui";
 
 export const dynamic = "force-dynamic";
 
@@ -73,17 +73,17 @@ export default async function DashboardPage() {
   const isWarehouse = user.role === ROLES.WAREHOUSE_KEEPER;
 
   // Warehouse keeper (Swami) gets no stat boxes
-  let counters: { label: string; count: number; color: string }[] = [];
+  let counters: { label: string; count: number; dot: string }[] = [];
   if (isWarehouse) {
     counters = []; // No stat boxes for warehouse keeper
   } else {
     const allCounters = [
-      { label: "Deliveries Today", count: deliveriesToday.length, color: "bg-slate-700 text-white" },
-      { label: "New Invoices Today", count: newToday, color: "bg-slate-500 text-white" },
-      { label: "Pending", count: byStatus("Pending"), color: STATUS_COLORS["Pending"] },
-      { label: "Packing In Progress", count: byStatus("Packing In Progress"), color: STATUS_COLORS["Packing In Progress"] },
-      { label: "Packing Finished", count: byStatus("Packing Finished"), color: STATUS_COLORS["Packing Finished"] },
-      { label: "Delivered Today", count: completedTodayRows.length, color: STATUS_COLORS["Delivered"] },
+      { label: "Deliveries Today", count: deliveriesToday.length, dot: "bg-gray-800" },
+      { label: "New Invoices Today", count: newToday, dot: "bg-gray-400" },
+      { label: "Pending", count: byStatus("Pending"), dot: "bg-gray-400" },
+      { label: "Packing In Progress", count: byStatus("Packing In Progress"), dot: "bg-amber-400" },
+      { label: "Packing Finished", count: byStatus("Packing Finished"), dot: "bg-blue-500" },
+      { label: "Delivered Today", count: completedTodayRows.length, dot: "bg-green-500" },
     ];
     // For salesmen, remove the first 3 counters
     counters = isSalesman ? allCounters.slice(3) : allCounters;
@@ -92,7 +92,7 @@ export default async function DashboardPage() {
   return (
     <div className="space-y-8">
       <div className="flex flex-wrap items-center justify-between gap-2">
-        <h1 className="text-2xl font-bold">Dashboard</h1>
+        <h1 className="text-[26px] font-semibold tracking-tight text-gray-900">Dashboard</h1>
         <div className="flex items-center gap-4">
           <p className="text-sm text-gray-500">
             Today: {formatDate(today)} · Hello, {user.name}
@@ -101,24 +101,31 @@ export default async function DashboardPage() {
         </div>
       </div>
 
-      <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-6">
-        {counters.map((c) => (
-          <div key={c.label} className={`rounded-lg p-3 shadow-sm ${c.color}`}>
-            <p className="text-2xl font-bold">{c.count}</p>
-            <p className="text-xs font-medium">{c.label}</p>
-          </div>
-        ))}
-      </div>
+      {counters.length > 0 && (
+        <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-6">
+          {counters.map((c) => (
+            <div key={c.label} className={`${card} p-3.5`}>
+              <p className="text-[28px] font-semibold leading-none tracking-tight text-gray-900">
+                {c.count}
+              </p>
+              <p className="mt-2 flex items-center gap-1.5 text-xs font-medium text-gray-500">
+                <span className={`h-2 w-2 shrink-0 rounded-full ${c.dot}`} />
+                {c.label}
+              </p>
+            </div>
+          ))}
+        </div>
+      )}
 
       {overdue.length > 0 && (
         <section>
-          <h2 className="mb-2 text-lg font-semibold text-red-700">⚠ Overdue Deliveries</h2>
+          <h2 className="mb-2.5 text-[17px] font-semibold tracking-tight text-red-600">⚠ Overdue Deliveries</h2>
           <LpoTable lpos={overdue} limited={limited} canDelete={isAdmin} showCreated={isAdmin} compact={isSalesman} today={today} />
         </section>
       )}
 
       <section>
-        <h2 className="mb-2 text-lg font-semibold">Today&apos;s Deliveries [{deliveriesToday.length}]</h2>
+        <h2 className="mb-2.5 text-[17px] font-semibold tracking-tight text-gray-900">Today&apos;s Deliveries [{deliveriesToday.length}]</h2>
         <LpoTable lpos={deliveriesToday} limited={limited} canDelete={isAdmin} showCreated={isAdmin} compact={isSalesman} today={today} emptyText="No deliveries planned for today." />
       </section>
 
@@ -128,7 +135,7 @@ export default async function DashboardPage() {
         </CollapsibleSection>
       ) : (
         <section>
-          <h2 className="mb-2 text-lg font-semibold">Tomorrow ({formatDate(tomorrow)}) [{deliveriesTomorrow.length}]</h2>
+          <h2 className="mb-2.5 text-[17px] font-semibold tracking-tight text-gray-900">Tomorrow ({formatDate(tomorrow)}) [{deliveriesTomorrow.length}]</h2>
           <LpoTable lpos={deliveriesTomorrow} limited={limited} canDelete={isAdmin} showCreated={isAdmin} compact={isSalesman} emptyText="Nothing planned for tomorrow yet." />
         </section>
       )}
@@ -136,14 +143,14 @@ export default async function DashboardPage() {
       {isSalesman || isWarehouse ? (
         <CollapsibleSection title={`Rest of the week [${upcoming.length}]`}>
           {upcomingGroups.size === 0 ? (
-            <p className="rounded border border-dashed border-gray-300 p-6 text-center text-sm text-gray-500">
+            <p className="rounded-2xl border border-dashed border-hairline p-8 text-center text-sm text-gray-400">
               Nothing scheduled for the rest of the week.
             </p>
           ) : (
-            <div className="max-h-96 space-y-4 overflow-y-auto rounded-lg border border-gray-200 bg-gray-50 p-3">
+            <div className="max-h-96 space-y-4 overflow-y-auto rounded-2xl border border-hairline/60 bg-gray-50/60 p-3">
               {[...upcomingGroups.entries()].map(([date, rows]) => (
                 <div key={date}>
-                  <h3 className="mb-1 text-sm font-semibold text-gray-600">
+                  <h3 className="mb-1.5 text-[13px] font-semibold text-gray-500">
                     {formatDate(date)} [{rows.length}]
                   </h3>
                   <LpoTable lpos={rows} limited={limited} canDelete={isAdmin} showCreated={isAdmin} compact={isSalesman} />
@@ -154,16 +161,16 @@ export default async function DashboardPage() {
         </CollapsibleSection>
       ) : (
         <section>
-          <h2 className="mb-2 text-lg font-semibold">Rest of the week [{upcoming.length}]</h2>
+          <h2 className="mb-2.5 text-[17px] font-semibold tracking-tight text-gray-900">Rest of the week [{upcoming.length}]</h2>
           {upcomingGroups.size === 0 ? (
-            <p className="rounded border border-dashed border-gray-300 p-6 text-center text-sm text-gray-500">
+            <p className="rounded-2xl border border-dashed border-hairline p-8 text-center text-sm text-gray-400">
               Nothing scheduled for the rest of the week.
             </p>
           ) : (
-            <div className="max-h-96 space-y-4 overflow-y-auto rounded-lg border border-gray-200 bg-gray-50 p-3">
+            <div className="max-h-96 space-y-4 overflow-y-auto rounded-2xl border border-hairline/60 bg-gray-50/60 p-3">
               {[...upcomingGroups.entries()].map(([date, rows]) => (
                 <div key={date}>
-                  <h3 className="mb-1 text-sm font-semibold text-gray-600">
+                  <h3 className="mb-1.5 text-[13px] font-semibold text-gray-500">
                     {formatDate(date)} [{rows.length}]
                   </h3>
                   <LpoTable lpos={rows} limited={limited} canDelete={isAdmin} showCreated={isAdmin} compact={isSalesman} />
@@ -175,10 +182,10 @@ export default async function DashboardPage() {
       )}
 
       <section>
-        <h2 className="mb-2 text-lg font-semibold">Delivered Today [{completedTodayRows.length}]</h2>
+        <h2 className="mb-2.5 text-[17px] font-semibold tracking-tight text-gray-900">Delivered Today [{completedTodayRows.length}]</h2>
         <LpoTable lpos={completedTodayRows} limited={limited} canDelete={isAdmin} showCreated={isAdmin} compact={isSalesman} emptyText="Nothing delivered yet today." />
         <p className="mt-3 text-sm">
-          <Link href="/deliveries" className="text-blue-600 hover:underline">
+          <Link href="/deliveries" className="text-accent hover:underline">
             View full delivery schedule →
           </Link>
         </p>

@@ -30,7 +30,7 @@ export function SavedToast() {
   if (!show) return null;
 
   return (
-    <div className="fixed left-1/2 top-5 z-[80] -translate-x-1/2 rounded-lg bg-green-700 px-5 py-3 text-sm font-semibold text-white shadow-lg">
+    <div className="fixed left-1/2 top-5 z-[80] -translate-x-1/2 rounded-full bg-gray-900/90 px-5 py-2.5 text-sm font-medium text-white shadow-lg backdrop-blur-xl">
       ✓ Invoice saved
     </div>
   );

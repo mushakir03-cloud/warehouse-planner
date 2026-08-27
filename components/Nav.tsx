@@ -33,27 +33,29 @@ export function Nav({ user }: { user: NavUser }) {
   }
 
   return (
-    <header className="bg-slate-800 text-white">
-      <div className="mx-auto flex max-w-6xl flex-wrap items-center gap-x-4 gap-y-2 px-4 py-3">
-        <Link href="/" className="flex items-center gap-2 text-lg font-bold">
-          <span className="rounded bg-white p-1">
-            <Image src={asset("/logo.svg")} alt="Delivery Order Tracker" width={28} height={20} />
-          </span>
+    <header className="sticky top-0 z-40 border-b border-hairline/70 bg-white/80 backdrop-blur-xl backdrop-saturate-150">
+      <div className="mx-auto flex max-w-6xl flex-wrap items-center gap-x-5 gap-y-2 px-4 py-2.5">
+        <Link href="/" className="flex items-center gap-2 text-[15px] font-semibold tracking-tight text-gray-900">
+          <Image src={asset("/logo.svg")} alt="" width={26} height={19} />
           Delivery Order Tracker
         </Link>
-        <nav className="flex flex-wrap items-center gap-x-4 gap-y-1 text-sm">
+        <nav className="flex flex-wrap items-center gap-x-1 gap-y-1 text-[13px]">
           {links.map((l) => (
-            <Link key={l.href} href={l.href} className="hover:underline">
+            <Link
+              key={l.href}
+              href={l.href}
+              className="rounded-full px-2.5 py-1 text-gray-600 transition-colors hover:bg-gray-100 hover:text-gray-900"
+            >
               {l.label}
             </Link>
           ))}
         </nav>
-        <div className="ml-auto flex items-center gap-3 text-sm">
-          <span className="text-slate-300">
+        <div className="ml-auto flex items-center gap-3 text-[13px]">
+          <span className="text-gray-500">
             {user.name} · {getUserRoleLabel(user.name, user.role)}
           </span>
           <form action={logout}>
-            <button className="rounded bg-slate-600 px-2 py-1 text-xs hover:bg-slate-500">
+            <button className="rounded-full border border-hairline px-3 py-1 text-xs font-medium text-gray-700 transition-colors hover:bg-gray-100">
               Logout
             </button>
           </form>

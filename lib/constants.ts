@@ -8,10 +8,10 @@ export const STATUSES = [
 export type Status = (typeof STATUSES)[number];
 
 export const STATUS_COLORS: Record<string, string> = {
-  Pending: "bg-gray-200 text-gray-700",
-  "Packing In Progress": "bg-yellow-200 text-yellow-800",
-  "Packing Finished": "bg-blue-200 text-blue-800",
-  Delivered: "bg-green-200 text-green-800",
+  Pending: "bg-gray-100 text-gray-600 ring-1 ring-inset ring-gray-200",
+  "Packing In Progress": "bg-amber-50 text-amber-700 ring-1 ring-inset ring-amber-200",
+  "Packing Finished": "bg-blue-50 text-blue-700 ring-1 ring-inset ring-blue-200",
+  Delivered: "bg-green-50 text-green-700 ring-1 ring-inset ring-green-200",
 };
 
 export const ROLES = {

@@ -74,7 +74,7 @@ export default async function LpoDetailPage({
   return (
     <div className="mx-auto max-w-3xl space-y-6">
       <div className="flex flex-wrap items-center justify-between gap-2">
-        <h1 className="text-2xl font-bold">
+        <h1 className="text-[26px] font-semibold tracking-tight text-gray-900">
           {lpo.customerName}
           <span className="ml-2 text-base font-normal text-gray-500">
             (#{serial} on {formatDate(lpo.deliveryDate)})
@@ -87,20 +87,20 @@ export default async function LpoDetailPage({
               lpoLabel={`${lpo.customerName} (${formatDate(lpo.deliveryDate)})`}
             />
           )}
-          <Link href={done ? "/history" : "/deliveries"} className="text-sm text-blue-600 hover:underline">
+          <Link href={done ? "/history" : "/deliveries"} className="text-sm text-accent hover:underline">
             ← Back
           </Link>
         </div>
       </div>
 
       {canUpdateStatus && !done && (
-        <section id="status" className="rounded-lg border border-gray-200 bg-white p-5 shadow-sm">
-          <h2 className="mb-3 text-lg font-semibold">Change Status</h2>
+        <section id="status" className="rounded-2xl border border-hairline/60 bg-white p-5 shadow-[0_1px_2px_rgba(0,0,0,0.04)]">
+          <h2 className="mb-3 text-[17px] font-semibold tracking-tight text-gray-900">Change Status</h2>
           <StatusForm action={updateLpoStatus.bind(null, lpo.id)} current={lpo.status} />
         </section>
       )}
 
-      <div className="rounded-lg border border-gray-200 bg-white shadow-sm">
+      <div className="rounded-2xl border border-hairline/60 bg-white shadow-[0_1px_2px_rgba(0,0,0,0.04)]">
         <dl className="divide-y divide-gray-100 text-sm">
           {fields.map(([k, v]) => (
             <div key={k as string} className="grid grid-cols-1 gap-1 px-4 py-2.5 sm:grid-cols-3">
@@ -112,14 +112,14 @@ export default async function LpoDetailPage({
       </div>
 
       {done && (
-        <p className="rounded-lg border border-green-200 bg-green-50 p-4 text-center text-sm font-semibold text-green-800">
+        <p className="rounded-2xl border border-green-200/70 bg-green-50 p-4 text-center text-sm font-medium text-green-800">
           ✅ This invoice is delivered and finished. It lives in History now.
         </p>
       )}
 
       {canEdit && (
         <section>
-          <h2 className="mb-3 text-lg font-semibold">Edit Invoice</h2>
+          <h2 className="mb-3 text-[17px] font-semibold tracking-tight text-gray-900">Edit Invoice</h2>
           <LpoForm
             action={updateLpo.bind(null, lpo.id)}
             values={{
@@ -138,7 +138,7 @@ export default async function LpoDetailPage({
 
       {user.role === ROLES.ADMIN && (
         <section>
-          <h2 className="mb-3 text-lg font-semibold">Activity Timeline</h2>
+          <h2 className="mb-3 text-[17px] font-semibold tracking-tight text-gray-900">Activity Timeline</h2>
           <InvoiceActivityTimeline lpo={lpo} />
         </section>
       )}

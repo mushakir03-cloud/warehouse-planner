@@ -124,7 +124,7 @@ function DateCalendar({
               key={i}
               type="button"
               onClick={() => onSelect(cellIso)}
-              className={`rounded py-1 hover:bg-blue-100 ${isSelected ? "bg-slate-800 text-white hover:bg-slate-700" : ""}`}
+              className={`rounded-lg py-1 transition-colors hover:bg-gray-100 ${isSelected ? "bg-accent text-white hover:bg-accent-hover" : ""}`}
             >
               {day}
             </button>
@@ -148,7 +148,7 @@ export function LpoForm({
 }) {
   const [state, formAction, pending] = useActionState(action, null);
   const base =
-    "rounded border border-gray-300 bg-white px-3 py-2 text-sm focus:border-blue-500 focus:outline-none";
+    "rounded-xl border border-hairline bg-white px-3.5 py-2.5 text-sm transition-colors placeholder:text-gray-400 focus:border-accent focus:outline-none";
   const input = `w-full ${base}`;
   const label = "mb-1 block text-sm font-medium";
 
@@ -200,7 +200,7 @@ export function LpoForm({
   }, [calendarOpen]);
 
   return (
-    <form action={formAction} className="space-y-4 rounded-lg border border-gray-200 bg-white p-5 shadow-sm">
+    <form action={formAction} className="space-y-4 rounded-2xl border border-hairline/60 bg-white p-5 shadow-[0_1px_2px_rgba(0,0,0,0.04)]">
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
         <div>
           <label className={label}>Customer Name *</label>
@@ -275,7 +275,7 @@ export function LpoForm({
 
       <button
         disabled={pending}
-        className="w-full rounded bg-slate-800 py-2.5 text-sm font-semibold text-white hover:bg-slate-700 disabled:opacity-50 sm:w-auto sm:px-8"
+        className="inline-flex w-full items-center justify-center rounded-full bg-accent py-2.5 text-sm font-medium text-white transition-colors hover:bg-accent-hover disabled:opacity-40 sm:w-auto sm:px-8"
       >
         {pending ? "Saving…" : submitLabel}
       </button>

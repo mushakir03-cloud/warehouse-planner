@@ -1,11 +1,9 @@
 import Link from "next/link";
+import { btnPrimary } from "@/lib/ui";
 
 export function NewInvoiceButton() {
   return (
-    <Link
-      href="/lpos/new"
-      className="rounded bg-slate-800 px-4 py-2 text-sm font-semibold text-white hover:bg-slate-700"
-    >
+    <Link href="/lpos/new" className={btnPrimary}>
       + New Invoice
     </Link>
   );

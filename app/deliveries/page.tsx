@@ -65,13 +65,13 @@ export default async function DeliveriesPage({
 
   return (
     <div className="space-y-5">
-      <h1 className="text-2xl font-bold">Deliveries</h1>
+      <h1 className="text-[26px] font-semibold tracking-tight text-gray-900">Deliveries</h1>
       <p className="text-sm text-gray-500">
         The delivery schedule, grouped by date. Use search to find any invoice.
       </p>
 
       {/* Search + filter bar */}
-      <form className="flex flex-wrap items-end gap-2 rounded-lg border border-gray-200 bg-white p-3 shadow-sm">
+      <form className="flex flex-wrap items-end gap-2 rounded-2xl border border-hairline/60 bg-white p-3.5 shadow-[0_1px_2px_rgba(0,0,0,0.04)]">
         <div className="min-w-[200px] flex-1">
           <label className="mb-1 block text-xs font-medium text-gray-500">
             Search (customer name or invoice number)
@@ -94,18 +94,18 @@ export default async function DeliveriesPage({
             ))}
           </select>
         </div>
-        <button className="rounded bg-blue-600 px-4 py-2 text-sm font-semibold text-white hover:bg-blue-500">
+        <button className="inline-flex items-center rounded-full bg-accent px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-accent-hover">
           Search
         </button>
         {searching && (
-          <Link href="/deliveries" className="rounded border border-gray-300 px-4 py-2 text-sm hover:bg-gray-50">
+          <Link href="/deliveries" className="inline-flex items-center rounded-full border border-hairline px-4 py-2 text-sm text-gray-700 transition-colors hover:bg-gray-50">
             Clear
           </Link>
         )}
       </form>
 
       {groups.size === 0 && (
-        <p className="rounded border border-dashed border-gray-300 p-6 text-center text-sm text-gray-500">
+        <p className="rounded-2xl border border-dashed border-hairline p-8 text-center text-sm text-gray-400">
           {searching ? "No invoices match your search." : "No deliveries to do. All caught up!"}
         </p>
       )}

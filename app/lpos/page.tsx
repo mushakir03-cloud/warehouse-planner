@@ -58,18 +58,18 @@ export default async function LposPage({
   return (
     <div className="space-y-4">
       <div className="flex flex-wrap items-center justify-between gap-2">
-        <h1 className="text-2xl font-bold">Open Invoices</h1>
+        <h1 className="text-[26px] font-semibold tracking-tight text-gray-900">Open Invoices</h1>
         {(user.role === ROLES.ADMIN || user.role === ROLES.SALESMAN) && (
           <Link
             href="/lpos/new"
-            className="rounded bg-slate-800 px-4 py-2 text-sm font-semibold text-white hover:bg-slate-700"
+            className="inline-flex items-center justify-center rounded-full bg-accent px-5 py-2 text-sm font-medium text-white transition-colors hover:bg-accent-hover"
           >
             + New Invoice
           </Link>
         )}
       </div>
 
-      <form className="rounded-lg border border-gray-200 bg-white p-4 shadow-sm">
+      <form className="rounded-2xl border border-hairline/60 bg-white p-4 shadow-[0_1px_2px_rgba(0,0,0,0.04)]">
         <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4">
           <div className="col-span-2">
             <label className={label}>Search</label>
@@ -108,10 +108,10 @@ export default async function LposPage({
             </div>
           )}
           <div className="flex items-end gap-2">
-            <button className="rounded bg-blue-600 px-4 py-1.5 text-sm font-semibold text-white hover:bg-blue-500">
+            <button className="inline-flex items-center rounded-full bg-accent px-4 py-1.5 text-sm font-medium text-white transition-colors hover:bg-accent-hover">
               Filter
             </button>
-            <Link href="/lpos" className="rounded border border-gray-300 px-4 py-1.5 text-sm hover:bg-gray-50">
+            <Link href="/lpos" className="inline-flex items-center rounded-full border border-hairline px-4 py-1.5 text-sm text-gray-700 transition-colors hover:bg-gray-50">
               Clear
             </Link>
           </div>

@@ -18,7 +18,7 @@ export function StatusForm({
   const delivering = selected === "Delivered";
 
   const input =
-    "w-full rounded border border-gray-300 bg-white px-3 py-2 text-sm focus:border-blue-500 focus:outline-none";
+    "w-full rounded-xl border border-hairline bg-white px-3.5 py-2.5 text-sm transition-colors placeholder:text-gray-400 focus:border-accent focus:outline-none";
   const label = "mb-1 block text-sm font-medium";
 
   return (
@@ -27,7 +27,7 @@ export function StatusForm({
         {STATUSES.map((s) => (
           <label
             key={s}
-            className="flex cursor-pointer items-center gap-3 rounded-lg border border-gray-200 p-3 text-sm font-medium has-checked:border-slate-800 has-checked:bg-slate-50"
+            className="flex cursor-pointer items-center gap-3 rounded-xl border border-hairline p-3 text-sm font-medium transition-colors hover:bg-gray-50 has-checked:border-accent has-checked:bg-accent-soft"
           >
             <input
               type="radio"
@@ -35,7 +35,7 @@ export function StatusForm({
               value={s}
               checked={selected === s}
               onChange={() => setSelected(s)}
-              className="h-5 w-5 accent-slate-800"
+              className="h-5 w-5 accent-accent"
             />
             <span className={`rounded-full px-2.5 py-0.5 text-xs font-semibold ${STATUS_COLORS[s]}`}>
               {s}
@@ -81,7 +81,7 @@ export function StatusForm({
           className={input}
         />
       </div>
-      <button className="w-full rounded bg-green-700 py-3 text-sm font-semibold text-white hover:bg-green-600 sm:w-auto sm:px-8">
+      <button className="inline-flex w-full items-center justify-center rounded-full bg-green-700 py-3 text-sm font-medium text-white transition-colors hover:bg-green-600 sm:w-auto sm:px-8">
         {delivering ? "Confirm Delivery & Finish" : "Save New Status"}
       </button>
     </form>

@@ -41,16 +41,16 @@ export default async function HistoryPage({
 
   return (
     <div className="space-y-4">
-      <h1 className="text-2xl font-bold">History</h1>
+      <h1 className="text-[26px] font-semibold tracking-tight text-gray-900">History</h1>
       <p className="text-sm text-gray-500">Finished (delivered) invoices, newest first.</p>
       <form className="flex gap-2">
         <input
           name="q"
           defaultValue={q || ""}
           placeholder="Search customer, invoice no., location..."
-          className="w-full max-w-md rounded border border-gray-300 bg-white px-3 py-2 text-sm focus:border-blue-500 focus:outline-none"
+          className="w-full max-w-md rounded-xl border border-hairline bg-white px-3.5 py-2.5 text-sm transition-colors placeholder:text-gray-400 focus:border-accent focus:outline-none"
         />
-        <button className="rounded bg-blue-600 px-4 py-1.5 text-sm font-semibold text-white hover:bg-blue-500">
+        <button className="inline-flex items-center rounded-full bg-accent px-4 py-1.5 text-sm font-medium text-white transition-colors hover:bg-accent-hover">
           Search
         </button>
       </form>

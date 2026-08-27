@@ -12,7 +12,7 @@ export default async function NewLpoPage() {
 
   return (
     <div className="mx-auto max-w-3xl space-y-4">
-      <h1 className="text-2xl font-bold">New Invoice</h1>
+      <h1 className="text-[26px] font-semibold tracking-tight text-gray-900">New Invoice</h1>
       <p className="text-sm text-gray-500">
         Fill in the order and send it to the warehouse team. It will appear for
         them as <strong>Pending</strong>.

@@ -20,7 +20,7 @@ export function StatusSelect({
   const ref = useRef<HTMLSelectElement>(null);
 
   const input =
-    "w-full rounded border border-gray-300 bg-white px-3 py-2 text-sm focus:border-blue-500 focus:outline-none";
+    "w-full rounded-xl border border-hairline bg-white px-3.5 py-2.5 text-sm transition-colors placeholder:text-gray-400 focus:border-accent focus:outline-none";
   const label = "mb-1 block text-sm font-medium";
 
   const resetSelect = () => {

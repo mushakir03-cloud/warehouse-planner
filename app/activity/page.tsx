@@ -99,14 +99,14 @@ export default async function ActivityPage() {
 
   return (
     <div className="space-y-6">
-      <h1 className="text-2xl font-bold">Activity Log</h1>
+      <h1 className="text-[26px] font-semibold tracking-tight text-gray-900">Activity Log</h1>
       <p className="text-sm text-gray-500">
         Each invoice&apos;s full journey — every status it passed through, when it got there,
         who moved it, and how long each stage took.
       </p>
 
       {dates.length === 0 && (
-        <p className="rounded border border-dashed border-gray-300 p-6 text-center text-sm text-gray-500">
+        <p className="rounded-2xl border border-dashed border-hairline p-8 text-center text-sm text-gray-400">
           No activity yet.
         </p>
       )}
@@ -122,11 +122,11 @@ export default async function ActivityPage() {
               const last = j.stages[j.stages.length - 1];
               const totalMs = last.at.getTime() - first.at.getTime();
               return (
-                <li key={j.lpoId} className="rounded-lg bg-white p-3 shadow-sm">
+                <li key={j.lpoId} className="rounded-2xl border border-hairline/60 bg-white p-3.5 shadow-[0_1px_2px_rgba(0,0,0,0.04)]">
                   <div className="mb-2 flex flex-wrap items-baseline gap-x-2 gap-y-1">
                     <Link
                       href={`/lpos/${j.lpoId}`}
-                      className="font-semibold text-blue-600 hover:underline"
+                      className="font-semibold text-accent hover:underline"
                     >
                       {j.serial != null ? `#${j.serial}` : `INV-${j.lpoId}`}
                     </Link>
