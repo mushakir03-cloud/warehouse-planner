@@ -12,7 +12,6 @@ import {
 import { LpoTable, LpoRow } from "@/components/LpoTable";
 import { CollapsibleSection } from "@/components/CollapsibleSection";
 import { NewInvoiceButton } from "@/components/NewInvoiceButton";
-import { card } from "@/lib/ui";
 
 export const dynamic = "force-dynamic";
 
@@ -73,17 +72,19 @@ export default async function DashboardPage() {
   const isWarehouse = user.role === ROLES.WAREHOUSE_KEEPER;
 
   // Warehouse keeper (Swami) gets no stat boxes
-  let counters: { label: string; count: number; dot: string }[] = [];
+  let counters: { label: string; count: number; tone: string }[] = [];
   if (isWarehouse) {
     counters = []; // No stat boxes for warehouse keeper
   } else {
+    // Whole-tile colour coding, kept from the original dashboard — the team
+    // reads these by colour at a glance, so the fill has to carry the signal.
     const allCounters = [
-      { label: "Deliveries Today", count: deliveriesToday.length, dot: "bg-gray-800" },
-      { label: "New Invoices Today", count: newToday, dot: "bg-gray-400" },
-      { label: "Pending", count: byStatus("Pending"), dot: "bg-gray-400" },
-      { label: "Packing In Progress", count: byStatus("Packing In Progress"), dot: "bg-amber-400" },
-      { label: "Packing Finished", count: byStatus("Packing Finished"), dot: "bg-blue-500" },
-      { label: "Delivered Today", count: completedTodayRows.length, dot: "bg-green-500" },
+      { label: "Deliveries Today", count: deliveriesToday.length, tone: "bg-gray-900 text-white" },
+      { label: "New Invoices Today", count: newToday, tone: "bg-gray-500 text-white" },
+      { label: "Pending", count: byStatus("Pending"), tone: "bg-gray-100 text-gray-700 ring-1 ring-inset ring-gray-300/70" },
+      { label: "Packing In Progress", count: byStatus("Packing In Progress"), tone: "bg-amber-100 text-amber-900 ring-1 ring-inset ring-amber-300/70" },
+      { label: "Packing Finished", count: byStatus("Packing Finished"), tone: "bg-blue-100 text-blue-900 ring-1 ring-inset ring-blue-300/70" },
+      { label: "Delivered Today", count: completedTodayRows.length, tone: "bg-green-100 text-green-900 ring-1 ring-inset ring-green-300/70" },
     ];
     // For salesmen, remove the first 3 counters
     counters = isSalesman ? allCounters.slice(3) : allCounters;
@@ -104,14 +105,9 @@ export default async function DashboardPage() {
       {counters.length > 0 && (
         <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-6">
           {counters.map((c) => (
-            <div key={c.label} className={`${card} p-3.5`}>
-              <p className="text-[28px] font-semibold leading-none tracking-tight text-gray-900">
-                {c.count}
-              </p>
-              <p className="mt-2 flex items-center gap-1.5 text-xs font-medium text-gray-500">
-                <span className={`h-2 w-2 shrink-0 rounded-full ${c.dot}`} />
-                {c.label}
-              </p>
+            <div key={c.label} className={`rounded-2xl p-3.5 shadow-[0_1px_2px_rgba(0,0,0,0.04)] ${c.tone}`}>
+              <p className="text-[28px] font-semibold leading-none tracking-tight">{c.count}</p>
+              <p className="mt-2 text-xs font-medium opacity-80">{c.label}</p>
             </div>
           ))}
         </div>
