@@ -53,3 +53,51 @@ table, time, .tabular {
 ::selection {
   background: var(--color-accent-soft);
 }
+
+/* ---------------------------------------------------------------------------
+   Touch devices only (Android tablets, phones). Nothing here changes the
+   desktop layout — `pointer: coarse` matches a finger, not a mouse.
+   The visual sizes stay as designed; what grows is the area you can hit,
+   which is where small controls actually fail on a tablet.
+   --------------------------------------------------------------------------- */
+@media (pointer: coarse) {
+  /* Apple and Android both put the comfortable minimum around 44px */
+  button,
+  select,
+  textarea,
+  input:not([type="radio"]):not([type="checkbox"]):not([type="file"]) {
+    min-height: 44px;
+  }
+
+  /* Icon-only controls (the row expander, the ⋮ menu) need width too,
+     or they end up tall and thin and still hard to hit. */
+  table button {
+    min-width: 44px;
+  }
+
+  /* 16px is the threshold below which mobile browsers zoom on focus —
+     staying at or above it stops the page lurching when a field is tapped. */
+  input,
+  select,
+  textarea {
+    font-size: 16px;
+  }
+
+  /* Radios in the status picker: same look, bigger target */
+  input[type="radio"],
+  input[type="checkbox"] {
+    width: 1.4rem;
+    height: 1.4rem;
+  }
+
+  /* Nav pills and table rows get a little more vertical room, so
+     neighbouring taps are harder to confuse */
+  header nav a {
+    padding-block: 0.5rem;
+  }
+
+  th,
+  td {
+    padding-block: 0.7rem;
+  }
+}

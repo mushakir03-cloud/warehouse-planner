@@ -8,6 +8,7 @@ import {
   dayStartInstant,
   todayStr,
   formatDate,
+  skipsDashboard,
 } from "@/lib/constants";
 import { LpoTable, LpoRow } from "@/components/LpoTable";
 import { CollapsibleSection } from "@/components/CollapsibleSection";
@@ -18,6 +19,8 @@ export const dynamic = "force-dynamic";
 export default async function DashboardPage() {
   const user = await getCurrentUser();
   if (!user) redirect("/login");
+  // Staff who don't use the dashboard land on the delivery schedule instead
+  if (skipsDashboard(user.name)) redirect("/deliveries");
 
   const today = todayStr();
   const tomorrow = todayStr(1);

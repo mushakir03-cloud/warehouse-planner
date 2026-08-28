@@ -1,12 +1,13 @@
 import Image from "next/image";
 import Link from "next/link";
 import { logout } from "@/app/actions";
-import { ROLES, asset, getUserRoleLabel } from "@/lib/constants";
+import { ROLES, asset, getUserRoleLabel, skipsDashboard } from "@/lib/constants";
 
 type NavUser = { name: string; role: string };
 
 export function Nav({ user }: { user: NavUser }) {
   let links: { href: string; label: string }[];
+  const noDashboard = skipsDashboard(user.name);
 
   if (user.role === ROLES.SALESMAN) {
     // Dashboard + one merged "Deliveries" tab (schedule + search). New invoice button moved to dashboard.
@@ -14,6 +15,7 @@ export function Nav({ user }: { user: NavUser }) {
       { href: "/", label: "Dashboard" },
       { href: "/deliveries", label: "Deliveries" },
     ];
+    if (noDashboard) links = [{ href: "/deliveries", label: "Deliveries" }];
   } else if (user.role === ROLES.WAREHOUSE_KEEPER) {
     // Warehouse: Dashboard + Deliveries is all they need
     links = [
@@ -35,7 +37,7 @@ export function Nav({ user }: { user: NavUser }) {
   return (
     <header className="sticky top-0 z-40 border-b border-hairline/70 bg-white/80 backdrop-blur-xl backdrop-saturate-150">
       <div className="mx-auto flex max-w-6xl flex-wrap items-center gap-x-5 gap-y-2 px-4 py-2.5">
-        <Link href="/" className="flex items-center gap-2 text-[15px] font-semibold tracking-tight text-gray-900">
+        <Link href={noDashboard ? "/deliveries" : "/"} className="flex items-center gap-2 text-[15px] font-semibold tracking-tight text-gray-900">
           <Image src={asset("/logo.svg")} alt="" width={26} height={19} />
           Delivery Order Tracker
         </Link>

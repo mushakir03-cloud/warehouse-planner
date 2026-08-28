@@ -10,6 +10,7 @@ import {
   todayStr,
 } from "@/lib/constants";
 import { LpoTable, LpoRow } from "@/components/LpoTable";
+import { NewInvoiceButton } from "@/components/NewInvoiceButton";
 
 export const dynamic = "force-dynamic";
 
@@ -25,6 +26,7 @@ export default async function DeliveriesPage({
   const today = todayStr();
   const limited = user.role === ROLES.WAREHOUSE_KEEPER;
   const isAdmin = user.role === ROLES.ADMIN;
+  const canCreate = isAdmin || user.role === ROLES.SALESMAN;
 
   const searching = Boolean(sp.q || sp.status);
 
@@ -65,7 +67,10 @@ export default async function DeliveriesPage({
 
   return (
     <div className="space-y-5">
-      <h1 className="text-[26px] font-semibold tracking-tight text-gray-900">Deliveries</h1>
+      <div className="flex flex-wrap items-center justify-between gap-3">
+        <h1 className="text-[26px] font-semibold tracking-tight text-gray-900">Deliveries</h1>
+        {canCreate && <NewInvoiceButton />}
+      </div>
       <p className="text-sm text-gray-500">
         The delivery schedule, grouped by date. Use search to find any invoice.
       </p>

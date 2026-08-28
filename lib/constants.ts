@@ -33,6 +33,15 @@ export const CUSTOM_ROLE_LABELS: Record<string, string> = {
   swami: "Warehouse Manager",
 };
 
+// Staff who work straight off the delivery schedule and never use the
+// dashboard. Their nav drops it and "/" takes them to Deliveries instead.
+// Add a first name here (lowercase) to give someone the same treatment.
+export const SKIPS_DASHBOARD = ["mohsin"];
+
+export function skipsDashboard(userName: string): boolean {
+  return SKIPS_DASHBOARD.includes(userName.trim().toLowerCase());
+}
+
 export function getUserRoleLabel(userName: string, role: string): string {
   const customLabel = CUSTOM_ROLE_LABELS[userName.toLowerCase()];
   if (customLabel) return customLabel;
