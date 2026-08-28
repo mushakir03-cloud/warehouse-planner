@@ -117,7 +117,7 @@ export default async function DeliveriesPage({
 
       {[...groups.entries()].map(([date, dateLpos]) => (
         <section key={date}>
-          <h2 className="mb-2 flex flex-wrap items-center gap-2 text-lg font-semibold">
+          <h2 className="mb-2.5 flex flex-wrap items-center gap-2 text-[17px] font-semibold tracking-tight text-gray-900">
             {formatDate(date)}
             {date === today && (
               <span className="rounded-full bg-blue-600 px-2 py-0.5 text-xs font-semibold text-white">Today</span>

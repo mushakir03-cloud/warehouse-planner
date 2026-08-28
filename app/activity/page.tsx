@@ -113,7 +113,7 @@ export default async function ActivityPage() {
 
       {dates.map((date) => (
         <section key={date}>
-          <h2 className="mb-2 border-b border-gray-200 pb-1 text-lg font-semibold">
+          <h2 className="mb-2.5 border-b border-hairline/60 pb-1 text-[17px] font-semibold tracking-tight text-gray-900">
             {formatDate(date)}
           </h2>
           <ul className="space-y-3">

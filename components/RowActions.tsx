@@ -33,7 +33,7 @@ export function RowActions({
           <div className="fixed inset-0 z-10" onClick={() => setMenuPos(null)} />
           <div
             style={{ position: "fixed", top: menuPos.top, right: menuPos.right }}
-            className="z-20 w-44 rounded-lg border border-gray-200 bg-white py-1 shadow-lg"
+            className="z-20 w-44 rounded-xl border border-hairline/70 bg-white py-1 shadow-lg"
           >
             <form
               action={action}

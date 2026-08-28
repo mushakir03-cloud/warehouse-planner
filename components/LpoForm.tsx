@@ -95,7 +95,7 @@ function DateCalendar({
 
   return (
     <div
-      className="absolute left-0 top-full z-20 mt-1 w-64 rounded-lg border border-gray-200 bg-white p-3 shadow-lg"
+      className="absolute left-0 top-full z-20 mt-1 w-64 rounded-xl border border-hairline/70 bg-white p-3 shadow-lg"
       onMouseDown={(e) => e.preventDefault()}
     >
       <div className="mb-2 flex items-center justify-between">
